@@ -1,0 +1,97 @@
+package me.sloimay.smath.vectors
+
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.math.sqrt
+
+data class Vec2(var x: Float, var y: Float) {
+
+    companion object {
+        val ZERO = new(0f, 0f)
+        val ONE = new(1f, 1f)
+        val X = new(1f, 0f)
+        val Y = new(0f, 1f)
+        val INF = splat(Float.POSITIVE_INFINITY)
+        val NEG_INF = splat(Float.NEGATIVE_INFINITY)
+        val MIN = splat(Float.MIN_VALUE)
+        val MAX = splat(Float.MAX_VALUE)
+
+        fun new(x: Float, y: Float) = Vec2(x, y)
+        fun splat(v: Float) = Vec2(v, v)
+
+        fun lerp(a: Vec2, b: Vec2, t: Float) = a.lerp(b, t)
+        fun fromAngle(angle: Float) = new(cos(angle), sin(angle))
+    }
+
+    operator fun plus(other: Vec2)  = new(this.x + other.x, this.y + other.y)
+    operator fun plus(other: Float) = new(this.x + other, this.y + other)
+    operator fun minus(other: Vec2) =  new(this.x - other.x, this.y - other.y)
+    operator fun minus(other: Float) = new(this.x - other, this.y - other)
+    operator fun unaryMinus() = new(-this.x, -this.y)
+    operator fun unaryPlus() = this
+    operator fun times(other: Vec2)  = new(this.x * other.x, this.y * other.y)
+    operator fun times(other: Float) = new(this.x * other, this.y * other)
+    operator fun div(other: Vec2)  = new(this.x / other.x, this.y / other.y)
+    operator fun div(other: Float) = new(this.x / other, this.y / other)
+    operator fun rem(other: Vec2)  = new(this.x % other.x, this.y % other.y)
+    operator fun rem(other: Float) = new(this.x % other, this.y % other)
+    operator fun get(idx: UByte) =
+        when (idx) {
+            0.toUByte() -> this.x
+            else -> this.y
+        }
+    operator fun get(idx: UShort) = this[idx.toUByte()]
+    operator fun get(idx: Short) = this[idx.toUByte()]
+    operator fun get(idx: UInt) = this[idx.toUByte()]
+    operator fun get(idx: Int) = this[idx.toUByte()]
+    operator fun get(idx: Long) = this[idx.toUByte()]
+    operator fun get(idx: ULong) = this[idx.toUByte()]
+    operator fun set(idx: UByte, v: Float) =
+        when (idx) {
+            0.toUByte() -> this.x = v
+            else -> this.y = v
+        }
+    operator fun set(idx: UShort, v: Float) { this[idx.toUByte()] = v }
+    operator fun set(idx: Short, v: Float) { this[idx.toUByte()] = v }
+    operator fun set(idx: UInt, v: Float) { this[idx.toUByte()] = v }
+    operator fun set(idx: Int, v: Float) { this[idx.toUByte()] = v }
+    operator fun set(idx: Long, v: Float) { this[idx.toUByte()] = v }
+    operator fun set(idx: ULong, v: Float) { this[idx.toUByte()] = v }
+
+    fun equality(other: Vec2) = this.x == other.x && this.y == other.y
+    fun floor() = new(kotlin.math.floor(this.x), kotlin.math.floor(this.y))
+    fun ceil() = new(kotlin.math.ceil(this.x), kotlin.math.ceil(this.y))
+    fun round() = new(kotlin.math.round(this.x), kotlin.math.round(this.y))
+    fun abs() = new(kotlin.math.abs(this.x), kotlin.math.abs(this.y))
+    fun withX(v: Float) = new(v, this.y)
+    fun withY(v: Float) = new(this.x, v)
+    fun max(other: Vec2) = new(
+        kotlin.math.max(this.x, other.x),
+        kotlin.math.max(this.y, other.y),
+    )
+    fun min(other: Vec2) = new(
+        kotlin.math.min(this.x, other.x),
+        kotlin.math.min(this.y, other.y),
+    )
+    fun clamp(min: Vec2, max: Vec2) = this.max(min).min(max)
+    fun fract() = this - this.floor()
+    fun dot(other: Vec2) = this.x * other.x + this.y * other.y
+    fun lengthSqrd() = this.dot(this)
+    fun length() = sqrt(this.dot(this))
+    fun dist(other: Vec2) = (this - other).length()
+    fun distSqrd(other: Vec2) = (this - other).lengthSqrd()
+    fun normalize() = this * (1f / this.length())
+    fun lerp(other: Vec2, t: Float) = this * (1f - t) + other * t
+    fun extend(z: Float) = Vec3.new(x, y, z)
+
+    fun cross(other: Vec2) = Vec3.new(
+        0f,
+        0f,
+        this.x * other.y - other.x * this.y,
+    )
+
+
+    override fun toString(): String {
+        return "Vec2(x=${"%.5f".format(x)}, y=${"%.5f".format(y)}})";
+    }
+}
