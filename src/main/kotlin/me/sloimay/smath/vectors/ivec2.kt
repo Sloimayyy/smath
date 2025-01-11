@@ -1,7 +1,7 @@
 package me.sloimay.smath.vectors
 import kotlin.math.*
 
-data class IVec2(var x: Int, var y: Int) {
+data class IVec2(val x: Int, val y: Int) {
 
     companion object {
         val ZERO = new(0, 0)
@@ -46,24 +46,13 @@ data class IVec2(var x: Int, var y: Int) {
     operator fun get(idx: Int) = this[idx.toUByte()]
     operator fun get(idx: Long) = this[idx.toUByte()]
     operator fun get(idx: ULong) = this[idx.toUByte()]
-    operator fun set(idx: UByte, v: Int) =
-        when (idx) {
-            0.toUByte() -> this.x = v
-            else -> this.y = v
-        }
-    operator fun set(idx: UShort, v: Int) { this[idx.toUByte()] = v }
-    operator fun set(idx: Short, v: Int) { this[idx.toUByte()] = v }
-    operator fun set(idx: UInt, v: Int) { this[idx.toUByte()] = v }
-    operator fun set(idx: Int, v: Int) { this[idx.toUByte()] = v }
-    operator fun set(idx: Long, v: Int) { this[idx.toUByte()] = v }
-    operator fun set(idx: ULong, v: Int) { this[idx.toUByte()] = v }
 
     infix fun shr(other: IVec2) = new(this.x shr other.x, this.y shr other.y)
     infix fun shr(other: Int) = new(this.x shr other, this.y shr other)
     infix fun shl(other: IVec2) = new(this.x shl other.x, this.y shl other.y)
     infix fun shl(other: Int) = new(this.x shl other, this.y shl other)
-    infix fun and (other: IVec2) = new(this.x and other.x, this.y and other.y)
-    infix fun and (other: Int) = new(this.x and other, this.y and other)
+    infix fun and(other: IVec2) = new(this.x and other.x, this.y and other.y)
+    infix fun and(other: Int) = new(this.x and other, this.y and other)
 
     fun asVec2() = Vec2.new(this.x.toFloat(), this.y.toFloat())
 

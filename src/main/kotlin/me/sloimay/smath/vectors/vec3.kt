@@ -3,7 +3,7 @@ package me.sloimay.smath.vectors
 import java.util.*
 import kotlin.math.*
 
-data class Vec3(var x: Float, var y: Float, var z: Float) {
+data class Vec3(val x: Float, val y: Float, val z: Float) {
 
     companion object {
         val ZERO = new(0f, 0f, 0f)
@@ -46,18 +46,6 @@ data class Vec3(var x: Float, var y: Float, var z: Float) {
     operator fun get(idx: Int) = this[idx.toUByte()]
     operator fun get(idx: Long) = this[idx.toUByte()]
     operator fun get(idx: ULong) = this[idx.toUByte()]
-    operator fun set(idx: UByte, v: Float) =
-        when (idx) {
-            0.toUByte() -> this.x = v
-            1.toUByte() -> this.y = v
-            else -> this.z = v
-        }
-    operator fun set(idx: UShort, v: Float) { this[idx.toUByte()] = v }
-    operator fun set(idx: Short, v: Float) { this[idx.toUByte()] = v }
-    operator fun set(idx: UInt, v: Float) { this[idx.toUByte()] = v }
-    operator fun set(idx: Int, v: Float) { this[idx.toUByte()] = v }
-    operator fun set(idx: Long, v: Float) { this[idx.toUByte()] = v }
-    operator fun set(idx: ULong, v: Float) { this[idx.toUByte()] = v }
 
     fun equality(other: Vec3) = this.x == other.x && this.y == other.y && this.z == other.z
     fun floor() = new(floor(this.x), floor(this.y), floor(this.z))

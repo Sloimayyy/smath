@@ -2,7 +2,7 @@ package me.sloimay.smath.vectors
 import java.util.*
 import kotlin.math.*
 
-data class Vec4(var x: Float, var y: Float, var z: Float, var w: Float) {
+data class Vec4(var x: Float, val y: Float, val z: Float, val w: Float) {
 
     companion object {
         val ZERO = new(0f, 0f, 0f, 0f)
@@ -47,19 +47,6 @@ data class Vec4(var x: Float, var y: Float, var z: Float, var w: Float) {
     operator fun get(idx: Int) = this[idx.toUByte()]
     operator fun get(idx: Long) = this[idx.toUByte()]
     operator fun get(idx: ULong) = this[idx.toUByte()]
-    operator fun set(idx: UByte, v: Float) =
-        when (idx) {
-            0.toUByte() -> this.x = v
-            1.toUByte() -> this.y = v
-            2.toUByte() -> this.z = v
-            else -> this.w = v
-        }
-    operator fun set(idx: UShort, v: Float) { this[idx.toUByte()] = v }
-    operator fun set(idx: Short, v: Float) { this[idx.toUByte()] = v }
-    operator fun set(idx: UInt, v: Float) { this[idx.toUByte()] = v }
-    operator fun set(idx: Int, v: Float) { this[idx.toUByte()] = v }
-    operator fun set(idx: Long, v: Float) { this[idx.toUByte()] = v }
-    operator fun set(idx: ULong, v: Float) { this[idx.toUByte()] = v }
 
     fun equality(other: Vec4) = this.x == other.x && this.y == other.y && this.z == other.z && this.w == other.w
     fun floor() = new(floor(this.x), floor(this.y), floor(this.z), floor(this.w))

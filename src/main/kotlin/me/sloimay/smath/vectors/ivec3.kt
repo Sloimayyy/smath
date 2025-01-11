@@ -1,7 +1,7 @@
 package me.sloimay.smath.vectors
 import kotlin.math.*
 
-data class IVec3(var x: Int, var y: Int, var z: Int) {
+data class IVec3(val x: Int, val y: Int, val z: Int) {
 
     companion object {
         val ZERO = new(0, 0, 0)
@@ -48,25 +48,13 @@ data class IVec3(var x: Int, var y: Int, var z: Int) {
     operator fun get(idx: Int) = this[idx.toUByte()]
     operator fun get(idx: Long) = this[idx.toUByte()]
     operator fun get(idx: ULong) = this[idx.toUByte()]
-    operator fun set(idx: UByte, v: Int) =
-        when (idx) {
-            0.toUByte() -> this.x = v
-            1.toUByte() -> this.y = v
-            else -> this.z = v
-        }
-    operator fun set(idx: UShort, v: Int) { this[idx.toUByte()] = v }
-    operator fun set(idx: Short, v: Int) { this[idx.toUByte()] = v }
-    operator fun set(idx: UInt, v: Int) { this[idx.toUByte()] = v }
-    operator fun set(idx: Int, v: Int) { this[idx.toUByte()] = v }
-    operator fun set(idx: Long, v: Int) { this[idx.toUByte()] = v }
-    operator fun set(idx: ULong, v: Int) { this[idx.toUByte()] = v }
 
     infix fun shr(other: IVec3) = new(this.x shr other.x, this.y shr other.y, this.z shr other.z)
     infix fun shr(other: Int) = new(this.x shr other, this.y shr other, this.z shr other)
     infix fun shl(other: IVec3) = new(this.x shl other.x, this.y shl other.y, this.z shl other.z)
     infix fun shl(other: Int) = new(this.x shl other, this.y shl other, this.z shl other)
-    infix fun and (other: IVec3) = new(this.x and other.x, this.y and other.y, this.z and other.z)
-    infix fun and (other: Int) = new(this.x and other, this.y and other, this.z and other)
+    infix fun and(other: IVec3) = new(this.x and other.x, this.y and other.y, this.z and other.z)
+    infix fun and(other: Int) = new(this.x and other, this.y and other, this.z and other)
 
     fun asVec3() = Vec3.new(this.x.toFloat(), this.y.toFloat(), this.z.toFloat())
 
@@ -103,7 +91,13 @@ data class IVec3(var x: Int, var y: Int, var z: Int) {
         }
     }
 
-
+    fun withAxis(axis: Int, v: Int): IVec3 {
+        return when (axis) {
+            0 -> this.withX(v)
+            1 -> this.withY(v)
+            else -> this.withZ(v)
+        }
+    }
 
     fun toArray(): IntArray {
         return intArrayOf(x, y, z)
