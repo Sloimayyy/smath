@@ -1,5 +1,6 @@
 package me.sloimay.smath.vectors
 
+import java.util.*
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
@@ -78,9 +79,22 @@ data class Vec2(val x: Float, val y: Float) {
         0f,
         this.x * other.y - other.x * this.y,
     )
+    fun rotate(angle: Float): Vec2 {
+        val c = cos(angle)
+        val s = sin(angle)
+        return new(
+            this.x * c - this.y * s,
+            this.x * s + this.y * c,
+        )
+    }
 
 
     override fun toString(): String {
-        return "Vec2(x=${"%.5f".format(x)}, y=${"%.5f".format(y)}})";
+        return "Vec2(" +
+                "x=${"%.5f".format(Locale.ENGLISH, x)}, " +
+                "y=${"%.5f".format(Locale.ENGLISH, y)}" +
+                ")"
     }
 }
+
+fun vec2(x: Float, y: Float) = Vec2.new(x, y)

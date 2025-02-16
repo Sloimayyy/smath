@@ -15,6 +15,8 @@ data class IVec3(val x: Int, val y: Int, val z: Int) {
         fun new(x: Int, y: Int, z: Int) = IVec3(x, y, z)
         fun splat(v: Int) = IVec3(v, v, v)
 
+        fun fromArray(arr: IntArray) = new(arr[0], arr[1], arr[2])
+
         private fun hashInt(i: Int): Int {
             var v = i
             v = v xor (v shl 13)
@@ -57,6 +59,7 @@ data class IVec3(val x: Int, val y: Int, val z: Int) {
     infix fun and(other: Int) = new(this.x and other, this.y and other, this.z and other)
 
     fun asVec3() = Vec3.new(this.x.toFloat(), this.y.toFloat(), this.z.toFloat())
+    fun asDVec3() = DVec3.new(this.x.toDouble(), this.y.toDouble(), this.z.toDouble())
 
     fun equality(other: IVec3) = this.x == other.x && this.y == other.y && this.z == other.z
     fun abs() = new(abs(this.x), abs(this.y), abs(this.z))
@@ -99,9 +102,8 @@ data class IVec3(val x: Int, val y: Int, val z: Int) {
         }
     }
 
-    fun toArray(): IntArray {
-        return intArrayOf(x, y, z)
-    }
+
+    fun toArray() = intArrayOf(x, y, z)
 
 
     /*override fun hashCode(): Int {
@@ -121,5 +123,9 @@ data class IVec3(val x: Int, val y: Int, val z: Int) {
     }
 }
 
+operator fun Int.plus(vec: IVec3) = vec + this
+operator fun Int.minus(vec: IVec3) = IVec3(this - vec.x, this - vec.y, this - vec.z)
+operator fun Int.times(vec: IVec3) = vec * this
+operator fun Int.div(vec: IVec3) = IVec3(this / vec.x, this / vec.y, this / vec.z)
 
 fun ivec3(x: Int, y: Int, z: Int) = IVec3.new(x, y, z)

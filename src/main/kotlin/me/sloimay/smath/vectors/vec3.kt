@@ -17,6 +17,7 @@ data class Vec3(val x: Float, val y: Float, val z: Float) {
         val MAX = splat(Float.MAX_VALUE)
 
         fun new(x: Float, y: Float, z: Float) = Vec3(x, y, z)
+        fun new(x: Int, y: Int, z: Int) = Vec3(x.toFloat(), y.toFloat(), z.toFloat())
         fun splat(v: Float) = Vec3(v, v, v)
 
         fun lerp(a: Vec3, b: Vec3, t: Float) = a.lerp(b, t)
@@ -112,3 +113,4 @@ operator fun Float.times(vec: Vec3) = vec * this
 operator fun Float.div(vec: Vec3) = Vec3(this / vec.x, this / vec.y, this / vec.z)
 
 fun vec3(x: Float, y: Float, z: Float) = Vec3.new(x, y, z)
+fun vec3(x: Int, y: Int, z: Int) = Vec3.new(x, y, z)

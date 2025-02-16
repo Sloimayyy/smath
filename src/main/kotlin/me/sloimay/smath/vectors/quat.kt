@@ -1,5 +1,6 @@
 package me.sloimay.smath.vectors
 
+import me.sloimay.smath.Utils
 import java.util.*
 import kotlin.math.cos
 import kotlin.math.sin
@@ -62,6 +63,18 @@ data class Quat(val x: Float, val y: Float, val z: Float, val w: Float) {
         )
     }
 
+    fun toAxisAngle(): Pair<Vec3, Float> {
+        // Code from JOML
+        val acos = Utils.safeAcos(w)
+        val angle = acos * 2f
+        val invSqrt = 1f / (1f - w * w)
+        if (invSqrt.isInfinite()) {
+            return Vec3.new(0, 0, 1) to angle
+        } else {
+            return Vec3.new(x * invSqrt, y * invSqrt, z * invSqrt) to angle
+        }
+    }
+
 
     override fun toString(): String {
         return "Quat(" +
@@ -72,3 +85,6 @@ data class Quat(val x: Float, val y: Float, val z: Float, val w: Float) {
                 ")"
     }
 }
+
+
+fun quat(x: Float, y: Float, z: Float, w: Float) = Quat.new(x, y, z, w)

@@ -1,4 +1,5 @@
 package me.sloimay.smath.vectors
+import me.sloimay.smath.vectors.Vec2.Companion
 import kotlin.math.*
 
 data class IVec2(val x: Int, val y: Int) {
@@ -84,6 +85,24 @@ data class IVec2(val x: Int, val y: Int) {
         } else {
             1
         }
+    }
+
+    fun rotate90(): IVec2 {
+        val c = 0
+        val s = 1
+        return new(
+            this.x * c - this.y * s,
+            this.x * s + this.y * c,
+        )
+    }
+
+    fun rotateM90(): IVec2 {
+        val c = 0
+        val s = -1
+        return new(
+            this.x * c - this.y * s,
+            this.x * s + this.y * c,
+        )
     }
 
 
