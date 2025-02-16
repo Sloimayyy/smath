@@ -19,6 +19,11 @@ data class Vec3(val x: Float, val y: Float, val z: Float) {
         fun new(x: Float, y: Float, z: Float) = Vec3(x, y, z)
         fun new(x: Int, y: Int, z: Int) = Vec3(x.toFloat(), y.toFloat(), z.toFloat())
         fun splat(v: Float) = Vec3(v, v, v)
+        fun eye(index: Int) = Vec3(
+            if (index == 0) 1f else 0f,
+            if (index == 1) 1f else 0f,
+            if (index == 2) 1f else 0f,
+        )
 
         fun lerp(a: Vec3, b: Vec3, t: Float) = a.lerp(b, t)
     }
@@ -69,8 +74,20 @@ data class Vec3(val x: Float, val y: Float, val z: Float) {
     fun lerp(other: Vec3, t: Float) = this * (1f - t) + other * t
     fun extend(w: Float) = Vec4.new(x, y, z, w)
     fun setLength(length: Float) = this.normalize() * length
+    fun elementSum() = x + y + z
+    fun manhattan(other: Vec3) = (this - other).abs().elementSum()
 
     fun asIVec3() = IVec3.new(this.x.toInt(), this.y.toInt(), this.z.toInt())
+
+    fun quatMul(q: Quat): Vec3 {
+        val u = Vec3.new(q.x, q.y, q.z)
+        val scalar = q.w
+        return (
+                (2f * u.dot(this) * u) +
+                (scalar * scalar - u.dot(u)) * this +
+                (2f * scalar * u.cross(this))
+        )
+    }
 
     fun cross(other: Vec3) = new(
         this.y * other.z - other.y * this.z,

@@ -13,6 +13,17 @@ data class Quat(val x: Float, val y: Float, val z: Float, val w: Float) {
         val IDENTITY = new(0f, 0f, 0f, 1f)
 
         fun new(x: Float, y: Float, z: Float, w: Float) = Quat(x, y, z, w)
+
+        fun fromAxisAngle(axis: Vec3, angle: Float): Quat {
+            val axisNorm = axis.normalize()
+            val sinA = sin(angle * 0.5f)
+            return Quat(
+                sinA * axisNorm.x,
+                sinA * axisNorm.y,
+                sinA * axisNorm.z,
+                cos(angle * 0.5f)
+            )
+        }
     }
 
     operator fun times(v: Float) = new(x * v, y * v, z * v, w * v)
@@ -49,17 +60,6 @@ data class Quat(val x: Float, val y: Float, val z: Float, val w: Float) {
             ay * bw + aw * by + az * bx - ax * bz,
             az * bw + aw * bz + ax * by - ay * bx,
             aw * bw - ax * bx - ay * by - az * bz,
-        )
-    }
-
-    fun fromAxisAngle(axis: Vec3, angle: Float): Quat {
-        val axisNorm = axis.normalize()
-        val sinA = sin(angle * 0.5f)
-        return Quat(
-            sinA * axisNorm.x,
-            sinA * axisNorm.y,
-            sinA * axisNorm.z,
-            cos(angle * 0.5f)
         )
     }
 
