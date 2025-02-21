@@ -1,4 +1,4 @@
-package me.sloimay.smath
+package com.sloimay.smath
 
 import kotlin.math.PI
 import kotlin.math.acos

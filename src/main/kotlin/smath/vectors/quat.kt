@@ -1,6 +1,6 @@
-package me.sloimay.smath.vectors
+package com.sloimay.smath.vectors
 
-import me.sloimay.smath.Utils
+import com.sloimay.smath.Utils
 import java.util.*
 import kotlin.math.cos
 import kotlin.math.sin

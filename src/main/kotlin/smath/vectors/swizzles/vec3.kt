@@ -1,8 +1,8 @@
-package me.sloimay.smath.vectors.swizzles
+package com.sloimay.smath.vectors.swizzles
 
-import me.sloimay.smath.vectors.Vec2
-import me.sloimay.smath.vectors.Vec3
-import me.sloimay.smath.vectors.Vec4
+import com.sloimay.smath.vectors.Vec2
+import com.sloimay.smath.vectors.Vec3
+import com.sloimay.smath.vectors.Vec4
 
 
 val Vec3.xx get() = Vec2.new(x, x)

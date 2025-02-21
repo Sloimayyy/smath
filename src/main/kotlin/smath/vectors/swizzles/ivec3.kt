@@ -1,7 +1,7 @@
-package me.sloimay.smath.vectors.swizzles
+package com.sloimay.smath.vectors.swizzles
 
-import me.sloimay.smath.vectors.IVec2
-import me.sloimay.smath.vectors.IVec3
+import com.sloimay.smath.vectors.IVec2
+import com.sloimay.smath.vectors.IVec3
 
 
 val IVec3.xx get() = IVec2.new(x, x)

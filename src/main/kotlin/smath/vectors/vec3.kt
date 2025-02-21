@@ -1,4 +1,4 @@
-package me.sloimay.smath.vectors
+package com.sloimay.smath.vectors
 
 import java.util.*
 import kotlin.math.*
@@ -80,7 +80,7 @@ data class Vec3(val x: Float, val y: Float, val z: Float) {
     fun asIVec3() = IVec3.new(this.x.toInt(), this.y.toInt(), this.z.toInt())
 
     fun quatMul(q: Quat): Vec3 {
-        val u = Vec3.new(q.x, q.y, q.z)
+        val u = new(q.x, q.y, q.z)
         val scalar = q.w
         return (
                 (2f * u.dot(this) * u) +

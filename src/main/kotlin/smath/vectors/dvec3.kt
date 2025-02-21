@@ -1,4 +1,4 @@
-package me.sloimay.smath.vectors
+package com.sloimay.smath.vectors
 
 import java.util.*
 import kotlin.math.*

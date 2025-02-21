@@ -5,7 +5,7 @@ plugins {
     kotlin("jvm") version "1.6.10"
 }
 
-group = "me.sloimay"
+group = "com.sloimay"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -20,7 +20,7 @@ dependencies {
 publishing {
     publications {
         create<MavenPublication>("maven") {
-            groupId = "me.sloimay"
+            groupId = "com.sloimay"
             artifactId = "smath"
             version = "1.0.0"
 

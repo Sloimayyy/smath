@@ -1,5 +1,4 @@
-package me.sloimay.smath.vectors
-import me.sloimay.smath.vectors.Vec2.Companion
+package com.sloimay.smath.vectors
 import kotlin.math.*
 
 data class IVec2(val x: Int, val y: Int) {

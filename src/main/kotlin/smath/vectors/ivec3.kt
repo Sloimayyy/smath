@@ -1,4 +1,4 @@
-package me.sloimay.smath.vectors
+package com.sloimay.smath.vectors
 import kotlin.math.*
 
 data class IVec3(val x: Int, val y: Int, val z: Int) {
