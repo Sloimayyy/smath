@@ -80,8 +80,8 @@ data class Quat(val x: Float, val y: Float, val z: Float, val w: Float) {
         return "Quat(" +
                 "x=${"%.5f".format(Locale.ENGLISH, x)}, " +
                 "y=${"%.5f".format(Locale.ENGLISH, y)}, " +
-                "y=${"%.5f".format(Locale.ENGLISH, z)}, " +
-                "z=${"%.5f".format(Locale.ENGLISH, w)}" +
+                "z=${"%.5f".format(Locale.ENGLISH, z)}, " +
+                "w=${"%.5f".format(Locale.ENGLISH, w)}" +
                 ")"
     }
 }

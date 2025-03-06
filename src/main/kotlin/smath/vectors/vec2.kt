@@ -74,6 +74,8 @@ data class Vec2(val x: Float, val y: Float) {
     fun lerp(other: Vec2, t: Float) = this * (1f - t) + other * t
     fun extend(z: Float) = Vec3.new(x, y, z)
 
+    fun asIVec2() = IVec2.new(this.x.toInt(), this.y.toInt())
+
     fun cross(other: Vec2) = Vec3.new(
         0f,
         0f,

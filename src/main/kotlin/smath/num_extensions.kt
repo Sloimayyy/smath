@@ -10,3 +10,7 @@ fun Double.floor() = floor(this)
 
 fun Float.clamp(low: Float, high: Float) = max(min(this, high), low)
 fun Int.clamp(low: Int, high: Int) = max(min(this, high), low)
+
+fun Float.abs() = kotlin.math.abs(this)
+
+fun Float.lerp(other: Float, t: Float) = this*(1f-t) + other*t

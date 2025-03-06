@@ -2,7 +2,7 @@ package com.sloimay.smath.vectors
 import java.util.*
 import kotlin.math.*
 
-data class Vec4(var x: Float, val y: Float, val z: Float, val w: Float) {
+data class Vec4(val x: Float, val y: Float, val z: Float, val w: Float) {
 
     companion object {
         val ZERO = new(0f, 0f, 0f, 0f)
@@ -20,6 +20,13 @@ data class Vec4(var x: Float, val y: Float, val z: Float, val w: Float) {
         fun splat(v: Float) = Vec4(v, v, v, v)
 
         fun lerp(a: Vec4, b: Vec4, t: Float) = a.lerp(b, t)
+
+        fun fromLambda(lamb: (axisIdx: Int) -> Float) = Vec4(
+            lamb(0),
+            lamb(1),
+            lamb(2),
+            lamb(3),
+        )
     }
 
     operator fun plus(other: Vec4)  = new(this.x + other.x, this.y + other.y, this.z + other.z, this.w + other.w)
@@ -74,8 +81,8 @@ data class Vec4(var x: Float, val y: Float, val z: Float, val w: Float) {
         return "Vec4(" +
                 "x=${"%.5f".format(Locale.ENGLISH, x)}, " +
                 "y=${"%.5f".format(Locale.ENGLISH, y)}, " +
-                "y=${"%.5f".format(Locale.ENGLISH, z)}, " +
-                "z=${"%.5f".format(Locale.ENGLISH, w)}" +
+                "z=${"%.5f".format(Locale.ENGLISH, z)}, " +
+                "w=${"%.5f".format(Locale.ENGLISH, w)}" +
                 ")"
     }
 }
