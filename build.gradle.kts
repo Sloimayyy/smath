@@ -33,8 +33,8 @@ publishing {
         }
     }*/
 
-    repositories {
-        /*maven {
+    /*repositories {
+        maven {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/Sloimayyy/smath")
             credentials {
@@ -44,8 +44,8 @@ publishing {
                 username = un
                 password = key
             }
-        }*/
-    }
+        }
+    }*/
     /*publications {
         register<MavenPublication>("gpr") {
             from(components["java"])
