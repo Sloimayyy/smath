@@ -1,7 +1,6 @@
 plugins {
     `maven-publish`
     kotlin("jvm") version "1.6.10"
-    id("maven-publish")
     id("java-library")
 }
 
@@ -10,8 +9,8 @@ java {
     withSourcesJar()
 }
 
-group = "com.sloimay"
-version = "1.0.1"
+group = "com.github.sloimayyy"
+version = "1.0.4"
 
 repositories {
     mavenCentral()
@@ -23,15 +22,15 @@ dependencies {
 }
 
 publishing {
-    /*publications {
+    publications {
         create<MavenPublication>("maven") {
-            groupId = "com.sloimay"
+            groupId = project.group as String
             artifactId = "smath"
-            version = "1.0.0"
+            version = project.version as String
 
             from(components["java"])
         }
-    }*/
+    }
 
     /*repositories {
         maven {
@@ -46,11 +45,10 @@ publishing {
             }
         }
     }*/
-    /*publications {
+    publications {
         register<MavenPublication>("gpr") {
             from(components["java"])
 
-            // Optional: customize POM information
             pom {
                 name.set("smath")
                 description.set("Sloimay's Kotlin Math Library")
@@ -72,7 +70,6 @@ publishing {
                 }
             }
         }
-    }*/
+    }
 }
-
 
