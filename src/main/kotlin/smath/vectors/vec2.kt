@@ -73,6 +73,7 @@ data class Vec2(val x: Float, val y: Float) {
     fun normalize() = this * (1f / this.length())
     fun lerp(other: Vec2, t: Float) = this * (1f - t) + other * t
     fun extend(z: Float) = Vec3.new(x, y, z)
+    fun elementSum() = x + y
 
     fun asIVec2() = IVec2.new(this.x.toInt(), this.y.toInt())
 
