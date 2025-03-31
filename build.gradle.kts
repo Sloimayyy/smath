@@ -1,5 +1,3 @@
-
-
 plugins {
     `maven-publish`
     kotlin("jvm") version "1.6.10"
@@ -13,7 +11,7 @@ java {
 }
 
 group = "com.sloimay"
-version = "1.0-SNAPSHOT"
+version = "1.0.1"
 
 repositories {
     mavenCentral()
@@ -25,7 +23,7 @@ dependencies {
 }
 
 publishing {
-    publications {
+    /*publications {
         create<MavenPublication>("maven") {
             groupId = "com.sloimay"
             artifactId = "smath"
@@ -33,15 +31,18 @@ publishing {
 
             from(components["java"])
         }
-    }
+    }*/
 
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/sloimayyy/mcvolume")
+            url = uri("https://maven.pkg.github.com/Sloimayyy/smath")
             credentials {
-                username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_USERNAME")
-                password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+                val (un, key) = file("private/publishing_creds.txt")
+                        .readLines()
+                        .map { it.trim() }
+                username = un
+                password = key
             }
         }
     }
@@ -51,22 +52,22 @@ publishing {
 
             // Optional: customize POM information
             pom {
-                name.set("Your Library Name")
-                description.set("A description of your library")
-                url.set("https://github.com/yourusername/yourrepository")
+                name.set("smath")
+                description.set("Sloimay's Kotlin Math Library")
+                url.set("https://github.com/Sloimayyy/smath")
 
                 licenses {
                     license {
-                        name.set("The License Name") // e.g., "MIT", "Apache 2.0"
-                        url.set("LICENSE URL")
+                        name.set("Apache 2.0")
+                        url.set("https://www.apache.org/licenses/LICENSE-2.0")
                     }
                 }
 
                 developers {
                     developer {
-                        id.set("yourusername")
-                        name.set("Your Name")
-                        email.set("your.email@example.com")
+                        id.set("sloimayyy")
+                        name.set("Sloimay")
+                        email.set("sloimayyy@gmail.com")
                     }
                 }
             }
