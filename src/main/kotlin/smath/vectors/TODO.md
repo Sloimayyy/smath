@@ -1,0 +1,1 @@
+- Implement most common vector methods through either interfaces or extension functions in the same files? Sounds easier to manage
