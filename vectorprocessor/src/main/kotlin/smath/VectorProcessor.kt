@@ -12,8 +12,11 @@ class GenVecAnnotation(val processingEnv: SymbolProcessorEnvironment) : SymbolPr
     }
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
+        //processingEnv.logger.info("KSP PROCESSOR IS RUNNING")
         // Find all classes with our annotation
+        //processingEnv.logger.warn("${resolver.getAllFiles().toList().first().location}")
         val symbols = resolver.getSymbolsWithAnnotation(VECTOR_ANNOTATION)
+        //processingEnv.logger.warn("${symbols.toList()}")
         val unprocessed = symbols.filterNot { it.validate() }.toList()
 
         symbols
@@ -98,7 +101,11 @@ class GenVecAnnotation(val processingEnv: SymbolProcessorEnvironment) : SymbolPr
             code.append("package $packageName\n\n")
             code.append("// Auto-generated extensions for $className\n\n")
 
-            genOperators(genContext)
+
+
+            genConstants(genContext)
+
+            //genOperators(genContext)
 
 
 

@@ -1,23 +1,30 @@
 package com.sloimay.smath
 
-import java.io.OutputStream
+import kotlin.math.roundToLong
 
 
 fun genOperators(genContext: GenContext) {
 
-    val code = genContext.code
-    val className = genContext.className
-    val compNames = genContext.compNames
-    val compType = genContext.compType
-
+    val (
+        code,
+        packageName,
+        className,
+        compType,
+        dims,
+        compNames
+    ) = genContext
 
     code.append("// Operators\n")
-
     genBinaryOp(genContext, "plus", "+")
     genBinaryOp(genContext, "minus", "-")
     genBinaryOp(genContext, "times", "*")
     genBinaryOp(genContext, "div", "/")
     genBinaryOp(genContext, "rem", "%")
+
+    if (compType !in UNUM_TYPES) {
+        genUnaryOp(genContext, "unaryMinus", "-")
+    }
+    genUnaryOp(genContext, "unaryPlus", "+")
 
 }
 
@@ -26,11 +33,40 @@ fun genOperators(genContext: GenContext) {
 
 
 
+
+
+
+private fun genUnaryOp(genContext: GenContext, opName: String, opSymbol: String) {
+    val (
+        code,
+        packageName,
+        className,
+        compType,
+        dims,
+        compNames
+    ) = genContext
+
+    code
+        .append("operator fun $className.$opName(): $className = $className(")
+        .append(compNames.joinToString(", ") { "${opSymbol}$it" })
+        .append(")")
+    code.append("\n")
+}
+
+
+
+
 private fun genBinaryOp(genContext: GenContext, opName: String, opSymbol: String) {
-    val code = genContext.code
-    val className = genContext.className
-    val compNames = genContext.compNames
-    val compType = genContext.compType
+    val (
+        code,
+        packageName,
+        className,
+        compType,
+        dims,
+        compNames
+    ) = genContext
+
+
 
     code
         .append("operator fun $className.$opName(other: $className): $className = $className(")

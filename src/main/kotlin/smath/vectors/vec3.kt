@@ -1,11 +1,24 @@
 package com.sloimay.smath.vectors
 
-import com.sloimay.smath.annotations.GenVecOps
 
-@GenVecOps("Float")
-data class Vec3(val x: Float, val y: Float, val z: Float)
+import java.util.*
+import kotlin.math.sqrt
+import kotlin.math.floor
+import kotlin.math.ceil
+import kotlin.math.round
+import kotlin.math.abs
+import kotlin.math.min
+import kotlin.math.max
+import kotlin.math.*
 
-/*data class Vec3(val x: Float, val y: Float, val z: Float) {
+/*@GenVecOps("Float")
+data class Vec3(val x: Float, val y: Float, val z: Float) {
+    companion object
+}*/
+
+
+
+data class Vec3(val x: Float, val y: Float, val z: Float) {
 
     companion object {
         val ZERO = new(0f, 0f, 0f)
@@ -132,4 +145,4 @@ operator fun Float.times(vec: Vec3) = vec * this
 operator fun Float.div(vec: Vec3) = Vec3(this / vec.x, this / vec.y, this / vec.z)
 
 fun vec3(x: Float, y: Float, z: Float) = Vec3.new(x, y, z)
-fun vec3(x: Int, y: Int, z: Int) = Vec3.new(x, y, z)*/
+fun vec3(x: Int, y: Int, z: Int) = Vec3.new(x, y, z)

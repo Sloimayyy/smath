@@ -1,7 +1,6 @@
 package com.sloimay.smath
 
-class GenContext(
-
+data class GenContext(
     val code: StringBuilder,
     val packageName: String,
     val className: String,
