@@ -1,9 +1,10 @@
 package com.sloimay.smath.vectors
 
-import java.util.*
-import kotlin.math.*
-
 data class DVec3(val x: Double, val y: Double, val z: Double) {
+    companion object
+}
+
+/*data class DVec3(val x: Double, val y: Double, val z: Double) {
 
     companion object {
         val ZERO = new(0, 0, 0)
@@ -126,4 +127,4 @@ operator fun Double.times(vec: DVec3) = vec * this
 operator fun Double.div(vec: DVec3) = DVec3(this / vec.x, this / vec.y, this / vec.z)
 
 fun dvec3(x: Double, y: Double, z: Double) = DVec3.new(x, y, z)
-fun dvec3(x: Int, y: Int, z: Int) = DVec3.new(x, y, z)
+fun dvec3(x: Int, y: Int, z: Int) = DVec3.new(x, y, z)*/

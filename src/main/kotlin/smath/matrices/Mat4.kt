@@ -3,6 +3,7 @@ package com.sloimay.smath.matrices
 import com.sloimay.smath.vectors.Quat
 import com.sloimay.smath.vectors.Vec3
 import com.sloimay.smath.vectors.Vec4
+import com.sloimay.smath.vectors.Vec3Impl.Z
 import com.sloimay.smath.vectors.swizzles.xyz
 
 /**

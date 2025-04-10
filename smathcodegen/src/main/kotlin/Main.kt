@@ -1,7 +1,6 @@
 package com.sloimay.smathcodegen
 
-import com.sloimay.smathcodegen.codefile.CodeFile
-import com.sloimay.smathcodegen.vecfile.VecFileGen
+import com.sloimay.smathcodegen.vecfile.VecExtensionsFileGen
 
 fun main() {
     emptySmathGenFolder()
@@ -10,7 +9,7 @@ fun main() {
 
 
     for (vecToGen in VECS_TO_GEN) {
-        VecFileGen(vecToGen).make()
+        VecExtensionsFileGen(vecToGen).make()
     }
 
 

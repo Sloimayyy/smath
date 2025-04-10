@@ -27,3 +27,9 @@ fun safeAcos(v: Float): Float {
     }
 }
 
+
+
+fun min(v1: Byte, v2: Byte) = min(v1.toInt(), v2.toInt()).toByte()
+fun min(v1: UByte, v2: UByte) = min(v1.toUInt(), v2.toUInt()).toUByte()
+fun min(v1: Short, v2: Short) = min(v1.toInt(), v2.toInt()).toShort()
+fun min(v1: UShort, v2: UShort) = min(v1.toUInt(), v2.toUInt()).toUShort()

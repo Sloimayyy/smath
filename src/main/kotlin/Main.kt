@@ -3,6 +3,7 @@ package com.sloimay
 import com.sloimay.smath.matrices.Mat3
 import com.sloimay.smath.matrices.Mat4
 import com.sloimay.smath.vectors.*
+import com.sloimay.smath.vectors.Vec3Impl.Y
 import java.math.BigDecimal
 import kotlin.math.PI
 import kotlin.time.ExperimentalTime

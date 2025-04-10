@@ -1,9 +1,9 @@
 package com.sloimay.smath.matrices
 
 import com.sloimay.smath.vectors.Vec3
-import com.sloimay.smath.vectors.Vec3.Companion.X
-import com.sloimay.smath.vectors.Vec3.Companion.Y
-import com.sloimay.smath.vectors.Vec3.Companion.Z
+import com.sloimay.smath.vectors.Vec3Impl.X
+import com.sloimay.smath.vectors.Vec3Impl.Y
+import com.sloimay.smath.vectors.Vec3Impl.Z
 
 class Mat3(values: FloatArray) {
 
