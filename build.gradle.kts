@@ -1,7 +1,8 @@
 plugins {
     `maven-publish`
-    kotlin("jvm") version "1.6.10"
+    kotlin("jvm") version "2.0.21"
     id("java-library")
+    id("com.google.devtools.ksp") version "2.0.21-1.0.28"
 }
 
 java {
@@ -10,7 +11,7 @@ java {
 }
 
 group = "com.github.sloimayyy"
-version = "1.0.4"
+version = "1.0.5"
 
 repositories {
     mavenCentral()
@@ -19,13 +20,16 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib"))
     //testImplementation(kotlin("test"))
+    ksp("com.google.devtools.ksp:symbol-processing-api:2.0.21-1.0.28")
+    ksp(project(":vectorprocessor"))
 }
 
 publishing {
     publications {
+        // Quick and dirty maven local for quick dev iterations
         create<MavenPublication>("maven") {
-            groupId = project.group as String
-            artifactId = "smath"
+            groupId = "com.sloimay"
+            artifactId = "smathdev"
             version = project.version as String
 
             from(components["java"])

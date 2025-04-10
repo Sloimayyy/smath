@@ -74,6 +74,7 @@ data class IVec3(val x: Int, val y: Int, val z: Int) {
     fun distSqrd(other: IVec3) = (this - other).lengthSqrd()
     fun floorDiv(other: IVec3) = new(this.x.floorDiv(other.x), this.y.floorDiv(other.y), this.z.floorDiv(other.z))
     fun elementProduct() = x * y * z
+    fun elementSum() = x + y + z
     fun maxElement() = max(x, max(y, z))
     fun copy() = new(x, y, z)
 

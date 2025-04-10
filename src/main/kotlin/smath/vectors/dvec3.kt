@@ -69,10 +69,13 @@ data class DVec3(val x: Double, val y: Double, val z: Double) {
     fun distSqrd(other: DVec3) = (this - other).lengthSqrd()
     fun normalize() = this * (1f / this.length())
     fun lerp(other: DVec3, t: Double) = this * (1f - t) + other * t
-    //fun extend(w: Double) = Vec4.new(x, y, z, w)
+    fun extend(w: Double) = DVec4.new(x, y, z, w)
+    fun maxElement() = max(x, max(y, z))
+    fun elementSum() = x + y + z
     fun setLength(length: Double) = this.normalize() * length
 
     fun asIVec3() = IVec3.new(this.x.toInt(), this.y.toInt(), this.z.toInt())
+    fun asVec3() = Vec3.new(this.x.toFloat(), this.y.toFloat(), this.z.toFloat())
 
     fun cross(other: DVec3) = new(
         this.y * other.z - other.y * this.z,
