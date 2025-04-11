@@ -1,8 +1,8 @@
 package com.sloimay.smath.vectors
 
-data class DVec3(val x: Double, val y: Double, val z: Double) {
+/*data class DVec3(val x: Double, val y: Double, val z: Double) {
     companion object
-}
+}*/
 
 /*data class DVec3(val x: Double, val y: Double, val z: Double) {
 

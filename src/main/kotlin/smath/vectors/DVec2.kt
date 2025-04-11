@@ -72,12 +72,12 @@ data class DVec2(val x: Double, val y: Double) {
     fun distSqrd(other: DVec2) = (this - other).lengthSqrd()
     fun normalize() = this * (1f / this.length())
     fun lerp(other: DVec2, t: Double) = this * (1f - t) + other * t
-    fun extend(z: Double) = DVec3.new(x, y, z)
+    fun extend(z: Double) = DVec3Ext.new(x, y, z)
     fun elementSum() = x + y
 
     fun asIVec2() = IVec2.new(this.x.toInt(), this.y.toInt())
 
-    fun cross(other:DVec2) = DVec3.new(
+    fun cross(other:DVec2) = DVec3Ext.new(
         0.0,
         0.0,
         this.x * other.y - other.x * this.y,

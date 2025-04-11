@@ -1,8 +1,8 @@
 package com.sloimay.smathcodegen.vecfile
 
 import com.sloimay.smathcodegen.*
-import com.sloimay.smathcodegen.codefile.CodeFile
-import com.sloimay.smathcodegen.codefile.FunParam
+import com.sloimay.smathcodegen.codefile.CodeFileOld
+import com.sloimay.smathcodegen.codefile.params.FunParam
 import java.util.*
 
 
@@ -10,7 +10,7 @@ private val LOCALE = Locale.UK
 
 
 
-class VecExtensionsFileGen(
+class VecExtensionsFileGenOld(
     vecToGen: VecToGen,
 ) {
     val vecName: String = vecToGen.vecName
@@ -20,7 +20,7 @@ class VecExtensionsFileGen(
 
     val compNames = COORDS_NAME.toList().slice(0 until dims)
 
-    val codeFile = CodeFile(
+    val codeFile = CodeFileOld(
         "$className.kt",
         "com.sloimay.smath.vectors.${className}Impl",
         "vectors"
@@ -65,7 +65,7 @@ class VecExtensionsFileGen(
 
 
 
-private fun VecExtensionsFileGen.imports() {
+private fun VecExtensionsFileGenOld.imports() {
     for (vecToGen in VECS_TO_GEN) {
         codeFile.code.append("import com.sloimay.smath.vectors.${vecToGen.className}\n")
     }
@@ -76,7 +76,7 @@ private fun VecExtensionsFileGen.imports() {
 
 
 
-private fun VecExtensionsFileGen.piecewiseBinaryOps() {
+private fun VecExtensionsFileGenOld.piecewiseBinaryOps() {
     piecewiseBinaryOp("plus", "+")
     codeFile.code.append("\n")
     piecewiseBinaryOp("minus", "-")
@@ -90,7 +90,7 @@ private fun VecExtensionsFileGen.piecewiseBinaryOps() {
 }
 
 
-private fun VecExtensionsFileGen.piecewiseUnaryOps() {
+private fun VecExtensionsFileGenOld.piecewiseUnaryOps() {
     piecewiseUnaryOp("unaryPlus", "+")
     piecewiseUnaryOp("unaryMinus", "-")
     codeFile.code.append("\n")
@@ -98,7 +98,7 @@ private fun VecExtensionsFileGen.piecewiseUnaryOps() {
 
 
 
-private fun VecExtensionsFileGen.specialFuncs() {
+private fun VecExtensionsFileGenOld.specialFuncs() {
 
     val typeData = NAMES_TO_NUM_TYPES[compType]!!
 
@@ -225,7 +225,7 @@ private fun VecExtensionsFileGen.specialFuncs() {
     codeFile.code.append("\n")
 }
 
-private fun VecExtensionsFileGen.specialFloatFuncs() {
+private fun VecExtensionsFileGenOld.specialFloatFuncs() {
     // Floor
     codeFile.oneLinerExtensionFunc(
         listOf(), className, "floor", listOf(), className,
@@ -259,7 +259,7 @@ private fun VecExtensionsFileGen.specialFloatFuncs() {
 
 
 
-private fun VecExtensionsFileGen.constants() {
+private fun VecExtensionsFileGenOld.constants() {
 
     for ((compIdx, compName) in compNames.withIndex()) {
         val constName = compName.uppercase()
@@ -296,7 +296,7 @@ private fun VecExtensionsFileGen.constants() {
     codeFile.code.append("\n")
 }
 
-private fun VecExtensionsFileGen.factories() {
+private fun VecExtensionsFileGenOld.factories() {
 
     for (t in NUM_TYPES) {
         codeFile.oneLinerFunc(
@@ -318,7 +318,7 @@ private fun VecExtensionsFileGen.factories() {
     codeFile.code.append("\n")
 }
 
-private fun VecExtensionsFileGen.casts() {
+private fun VecExtensionsFileGenOld.casts() {
 
     val typeData = NAMES_TO_NUM_TYPES[compType]!!
 
@@ -347,7 +347,7 @@ private fun VecExtensionsFileGen.casts() {
 
 
 
-private fun VecExtensionsFileGen.constant(
+private fun VecExtensionsFileGenOld.constant(
     constName: String,
     constVal: String,
     constType: String,
@@ -373,7 +373,7 @@ private fun VecExtensionsFileGen.constant(
 
 
 
-private fun VecExtensionsFileGen.piecewiseBinaryOp(opName: String, opSymbol: String) {
+private fun VecExtensionsFileGenOld.piecewiseBinaryOp(opName: String, opSymbol: String) {
     val typeData = NAMES_TO_NUM_TYPES[compType]!!
     val extraConversionNeeded = typeData.easilyNeedsReconversion() && (opName in
             listOf("plus", "minus", "times", "div", "rem")
@@ -426,7 +426,7 @@ private fun VecExtensionsFileGen.piecewiseBinaryOp(opName: String, opSymbol: Str
 }
 
 
-private fun VecExtensionsFileGen.piecewiseUnaryOp(opName: String, opSymbol: String) {
+private fun VecExtensionsFileGenOld.piecewiseUnaryOp(opName: String, opSymbol: String) {
     codeFile.oneLinerExtensionFunc(
         listOf("operator"),
         className,

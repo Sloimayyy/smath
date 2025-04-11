@@ -6,12 +6,14 @@ data class Vec3(val x: Float, val y: Float, val z: Float) {
     companion object
 }*/
 
-data class Vec3(val x: Float, val y: Float, val z: Float) {
+/*data class Vec3Ext(val x: Float, val y: Float, val z: Float) {
     companion object
+}*/
+
+fun a () {
+    val b = Vec3(0)
+    
 }
-
-
-
 /*data class Vec3(val x: Float, val y: Float, val z: Float) {
 
     companion object {

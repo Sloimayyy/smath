@@ -1,7 +1,7 @@
 package com.sloimay.smath.vectors.swizzles
 
 import com.sloimay.smath.vectors.Vec2
-import com.sloimay.smath.vectors.Vec3
+import com.sloimay.smath.vectors.Vec3Ext
 import com.sloimay.smath.vectors.Vec4
 
 
@@ -9,14 +9,14 @@ val Vec2.xx get() = Vec2.new(x, x)
 val Vec2.xy get() = Vec2.new(x, y)
 val Vec2.yx get() = Vec2.new(y, x)
 val Vec2.yy get() = Vec2.new(y, y)
-val Vec2.xxx get() = Vec3.new(x, x, x)
-val Vec2.xxy get() = Vec3.new(x, x, y)
-val Vec2.xyx get() = Vec3.new(x, y, x)
-val Vec2.xyy get() = Vec3.new(x, y, y)
-val Vec2.yxx get() = Vec3.new(y, x, x)
-val Vec2.yxy get() = Vec3.new(y, x, y)
-val Vec2.yyx get() = Vec3.new(y, y, x)
-val Vec2.yyy get() = Vec3.new(y, y, y)
+val Vec2.xxx get() = Vec3Ext.new(x, x, x)
+val Vec2.xxy get() = Vec3Ext.new(x, x, y)
+val Vec2.xyx get() = Vec3Ext.new(x, y, x)
+val Vec2.xyy get() = Vec3Ext.new(x, y, y)
+val Vec2.yxx get() = Vec3Ext.new(y, x, x)
+val Vec2.yxy get() = Vec3Ext.new(y, x, y)
+val Vec2.yyx get() = Vec3Ext.new(y, y, x)
+val Vec2.yyy get() = Vec3Ext.new(y, y, y)
 val Vec2.xxxx get() = Vec4.new(x, x, x, x)
 val Vec2.xxxy get() = Vec4.new(x, x, x, y)
 val Vec2.xxyx get() = Vec4.new(x, x, y, x)

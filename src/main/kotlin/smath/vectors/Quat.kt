@@ -14,7 +14,7 @@ data class Quat(val x: Float, val y: Float, val z: Float, val w: Float) {
 
         fun new(x: Float, y: Float, z: Float, w: Float) = Quat(x, y, z, w)
 
-        fun fromAxisAngle(axis: Vec3, angle: Float): Quat {
+        fun fromAxisAngle(axis: Vec3Ext, angle: Float): Quat {
             val axisNorm = axis.normalize()
             val sinA = sin(angle * 0.5f)
             return Quat(
@@ -63,15 +63,15 @@ data class Quat(val x: Float, val y: Float, val z: Float, val w: Float) {
         )
     }
 
-    fun toAxisAngle(): Pair<Vec3, Float> {
+    fun toAxisAngle(): Pair<Vec3Ext, Float> {
         // Code from JOML
         val acos = safeAcos(w)
         val angle = acos * 2f
         val invSqrt = 1f / (1f - w * w)
         if (invSqrt.isInfinite()) {
-            return Vec3.new(0, 0, 1) to angle
+            return Vec3Ext.new(0, 0, 1) to angle
         } else {
-            return Vec3.new(x * invSqrt, y * invSqrt, z * invSqrt) to angle
+            return Vec3Ext.new(x * invSqrt, y * invSqrt, z * invSqrt) to angle
         }
     }
 

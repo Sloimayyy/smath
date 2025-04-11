@@ -1,8 +1,6 @@
 package com.sloimay.smath.matrices
 
 import com.sloimay.smath.vectors.Vec2
-import com.sloimay.smath.vectors.Vec3
-import com.sloimay.smath.vectors.Vec4
 
 class Mat2(values: FloatArray) {
 

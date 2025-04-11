@@ -1,4 +1,4 @@
-package com.sloimay.smathcodegen.codefile
+package com.sloimay.smathcodegen.codefile.params
 
 class FunParam(
     val name: String,

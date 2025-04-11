@@ -1,9 +1,8 @@
 package com.sloimay.smath.matrices
 
 import com.sloimay.smath.vectors.Quat
-import com.sloimay.smath.vectors.Vec3
+import com.sloimay.smath.vectors.Vec3Ext
 import com.sloimay.smath.vectors.Vec4
-import com.sloimay.smath.vectors.Vec3Impl.Z
 import com.sloimay.smath.vectors.swizzles.xyz
 
 /**
@@ -75,7 +74,7 @@ class Mat4(values: FloatArray) {
             return Mat4(xAxis, yAxis, zAxis, Vec4.W)
         }
 
-        fun fromScale(scale: Vec3): Mat4 {
+        fun fromScale(scale: Vec3Ext): Mat4 {
             return Mat4(
                 Vec4.X * scale.x,
                 Vec4.Y * scale.y,
@@ -84,7 +83,7 @@ class Mat4(values: FloatArray) {
             )
         }
 
-        fun fromTranslation(translation: Vec3): Mat4 {
+        fun fromTranslation(translation: Vec3Ext): Mat4 {
             return Mat4(
                 Vec4.X,
                 Vec4.Y,
@@ -93,7 +92,7 @@ class Mat4(values: FloatArray) {
             )
         }
 
-        fun fromAxisAngle(axis: Vec3, angle: Float): Mat4 {
+        fun fromAxisAngle(axis: Vec3Ext, angle: Float): Mat4 {
             return fromQuat(Quat.fromAxisAngle(axis, angle))
         }
 
@@ -113,7 +112,7 @@ class Mat4(values: FloatArray) {
         }
     }
 
-    fun transformPoint(p: Vec3): Vec3 {
+    fun transformPoint(p: Vec3Ext): Vec3Ext {
         return this.timesVec4(p.extend(1f)).xyz
     }
 

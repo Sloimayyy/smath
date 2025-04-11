@@ -72,3 +72,36 @@ fun getNumConvData(from: String, to: String): NumConvData {
     error("Unrecognized num conversion: ${from} -> ${to}")
 }
 
+fun indentStr(indent: Int): String {
+    return " ".repeat(indent)
+}
+
+fun <T> cartesianProd(inputSpaces: List<List<T>>): Iterator<List<T>> {
+    return object : Iterator<List<T>> {
+
+        val indexes = inputSpaces.map { 0 }.toMutableList().also { it[it.size - 1] = -1 }
+        val limits = inputSpaces.map { it.size }
+
+        override fun hasNext(): Boolean {
+            return !indexes.withIndex().all { (idx, v) -> v == limits[idx] - 1 }
+        }
+
+        override fun next(): List<T> {
+
+            // Iterate indexes
+            for (i in (indexes.size-1) downTo 0) {
+                indexes[i] += 1
+                if (indexes[i] >= limits[i]) {
+                    indexes[i] = 0
+                } else {
+                    break
+                }
+                println("HELLO")
+            }
+
+            return indexes.mapIndexed { inputSpaceIdx, idxInInputSpace -> inputSpaces[inputSpaceIdx][idxInInputSpace] }
+        }
+
+    }
+}
+

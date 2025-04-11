@@ -1,6 +1,6 @@
 package com.sloimay.smath.matrices
 
-import com.sloimay.smath.vectors.Vec3
+import com.sloimay.smath.vectors.Vec3Ext
 import com.sloimay.smath.vectors.Vec3Impl.X
 import com.sloimay.smath.vectors.Vec3Impl.Y
 import com.sloimay.smath.vectors.Vec3Impl.Z
@@ -16,7 +16,7 @@ class Mat3(values: FloatArray) {
         this.values = values.copyOf()
     }
 
-    constructor(xAxis: Vec3, yAxis: Vec3, zAxis: Vec3) : this(
+    constructor(xAxis: Vec3Ext, yAxis: Vec3Ext, zAxis: Vec3Ext) : this(
         floatArrayOf(
             xAxis.x, xAxis.y, xAxis.z,
             yAxis.x, yAxis.y, yAxis.z,
@@ -25,7 +25,7 @@ class Mat3(values: FloatArray) {
     )
 
     companion object {
-        val IDENTITY = Mat3(Vec3.X, Vec3.Y, Vec3.Z)
+        val IDENTITY = Mat3(Vec3Ext.X, Vec3Ext.Y, Vec3Ext.Z)
 
         fun fromLambda(lamb: (Int, Int) -> Float): Mat3 {
             return Mat3(

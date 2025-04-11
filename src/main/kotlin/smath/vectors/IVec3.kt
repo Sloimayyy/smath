@@ -58,8 +58,8 @@ data class IVec3(val x: Int, val y: Int, val z: Int) {
     infix fun and(other: IVec3) = new(this.x and other.x, this.y and other.y, this.z and other.z)
     infix fun and(other: Int) = new(this.x and other, this.y and other, this.z and other)
 
-    fun asVec3() = Vec3.new(this.x.toFloat(), this.y.toFloat(), this.z.toFloat())
-    fun asDVec3() = DVec3.new(this.x.toDouble(), this.y.toDouble(), this.z.toDouble())
+    fun asVec3() = Vec3Ext.new(this.x.toFloat(), this.y.toFloat(), this.z.toFloat())
+    fun asDVec3() = DVec3Ext.new(this.x.toDouble(), this.y.toDouble(), this.z.toDouble())
 
     fun equality(other: IVec3) = this.x == other.x && this.y == other.y && this.z == other.z
     fun abs() = new(abs(this.x), abs(this.y), abs(this.z))

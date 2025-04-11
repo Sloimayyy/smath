@@ -1,14 +1,24 @@
 package com.sloimay.smathcodegen
 
+val COORDS_NAME = listOf(
+    "x", "y", "z", "w"
+)
+
 class VecToGen(val vecName: String, val compType: String, val dims: Int) {
     val className = vecName + dims.toString()
+    val compNames = COORDS_NAME.toList().slice(0 until dims)
 }
 val VECS_TO_GEN = listOf(
+    VecToGen("Vec", "Float", 2),
     VecToGen("Vec", "Float", 3),
     VecToGen("DVec", "Double", 3),
     VecToGen("UbVec", "UByte", 3),
     VecToGen("BVec", "Byte", 3),
 )
+
+fun getVecsToGenWithDimsAndName(name: String, dims: Int): List<VecToGen> {
+    return VECS_TO_GEN.filter { name == it.vecName && dims == it.dims }
+}
 
 
 
@@ -186,6 +196,3 @@ val UNUM_TYPES = listOf(
     NAMES_TO_NUM_TYPES["ULong"],
 )
 
-val COORDS_NAME = listOf(
-    "x", "y", "z", "w"
-)

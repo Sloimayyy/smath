@@ -1,11 +1,6 @@
 package com.sloimay.smath.vectors
 
-import java.util.*
-import kotlin.math.cos
-import kotlin.math.sin
-import kotlin.math.sqrt
-
-data class Vec2(val x: Float, val y: Float) {
+/*data class Vec2(val x: Float, val y: Float) {
 
     companion object {
         val ZERO = new(0f, 0f)
@@ -72,12 +67,12 @@ data class Vec2(val x: Float, val y: Float) {
     fun distSqrd(other: Vec2) = (this - other).lengthSqrd()
     fun normalize() = this * (1f / this.length())
     fun lerp(other: Vec2, t: Float) = this * (1f - t) + other * t
-    fun extend(z: Float) = Vec3.new(x, y, z)
+    fun extend(z: Float) = Vec3Ext.new(x, y, z)
     fun elementSum() = x + y
 
     fun asIVec2() = IVec2.new(this.x.toInt(), this.y.toInt())
 
-    fun cross(other: Vec2) = Vec3.new(
+    fun cross(other: Vec2) = Vec3Ext.new(
         0f,
         0f,
         this.x * other.y - other.x * this.y,
@@ -100,4 +95,4 @@ data class Vec2(val x: Float, val y: Float) {
     }
 }
 
-fun vec2(x: Float, y: Float) = Vec2.new(x, y)
+fun vec2(x: Float, y: Float) = Vec2.new(x, y)*/

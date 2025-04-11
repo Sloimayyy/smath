@@ -6,9 +6,9 @@ data class Vec3(val x: Float, val y: Float, val z: Float) {
     companion object
 }*/
 
-data class UbVec3(val x: UByte, val y: UByte, val z: UByte) {
+/*data class UbVec3Ext(val x: UByte, val y: UByte, val z: UByte) {
     companion object
-}
+}*/
 
 
 
