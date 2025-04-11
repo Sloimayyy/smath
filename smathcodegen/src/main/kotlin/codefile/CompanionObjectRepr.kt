@@ -2,11 +2,11 @@ package com.sloimay.smathcodegen.codefile
 
 import com.sloimay.smathcodegen.indentStr
 
-class CompanionObjectRepr() : CodeWriteElement {
+class CompanionObjectRepr() : CodeWriteElement, CwElementContainer {
 
     private val els = mutableListOf<CodeWriteElement>()
 
-    fun addElem(el: CodeWriteElement) = els.add(el)
+    override fun addElem(el: CodeWriteElement) = els.add(el)
 
     override fun write(code: StringBuilder, context: CodeWriterContext) {
         code.append(indentStr(context.indent))

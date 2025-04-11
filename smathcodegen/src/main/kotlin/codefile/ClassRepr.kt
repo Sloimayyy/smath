@@ -7,11 +7,11 @@ class ClassRepr(
     val qualifiers: List<String>,
     val name: String,
     val params: List<ClassParam>,
-) : CodeWriteElement {
+) : CodeWriteElement, CwElementContainer {
 
     private val els = mutableListOf<CodeWriteElement>()
 
-    fun addElem(el: CodeWriteElement) = els.add(el)
+    override fun addElem(el: CodeWriteElement) = els.add(el)
 
     override fun write(code: StringBuilder, context: CodeWriterContext) {
         code.append(indentStr(context.indent))

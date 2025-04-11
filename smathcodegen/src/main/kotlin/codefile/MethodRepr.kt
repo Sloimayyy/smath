@@ -7,12 +7,13 @@ class MethodRepr(
     val qualifiers: List<String>,
     val name: String,
     val params: List<FunParam>,
-    val oneLiner: Boolean = false
-) : CodeWriteElement {
+    val oneLiner: Boolean = false,
+    val returnType: String? = null,
+) : CodeWriteElement, CwElementContainer {
 
     private val els = mutableListOf<CodeWriteElement>()
 
-    fun addElem(el: CodeWriteElement) = els.add(el)
+    override fun addElem(el: CodeWriteElement) = els.add(el)
 
     override fun write(code: StringBuilder, context: CodeWriterContext) {
         code.append(indentStr(context.indent))
@@ -21,6 +22,9 @@ class MethodRepr(
         code.append("fun $name(")
         code.append(params.joinToString(", ") { it.str() })
         code.append(")")
+        if (returnType != null) {
+            code.append(": $returnType")
+        }
 
         if (oneLiner) {
             code.append(" = ")

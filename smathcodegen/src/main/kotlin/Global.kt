@@ -163,7 +163,7 @@ class NumTypeData(
 ) {
     fun isFloatNum(): Boolean = name == "Float" || name == "Double"
     fun isUnsigned(): Boolean = name in listOf("UByte", "UShort", "UInt", "ULong")
-    fun easilyNeedsReconversion(): Boolean = name in listOf("Byte", "UByte", "Short", "UShort")
+    fun needToBumpToInt(): Boolean = name in listOf("Byte", "UByte", "Short", "UShort")
 }
 
 

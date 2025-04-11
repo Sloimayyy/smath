@@ -8,13 +8,13 @@ class CodeFile(
     val packageStr: String,
 
     folderRelativeLoc: String,
-) : CodeWriteElement {
+) : CodeWriteElement, CwElementContainer {
     val folderPath: Path = smathGenFolderPath().resolve(folderRelativeLoc)
     val filePath: Path = folderPath.resolve(fileName)
 
     val els = mutableListOf<CodeWriteElement>()
 
-    fun addElem(el: CodeWriteElement) = els.add(el)
+    override fun addElem(el: CodeWriteElement) = els.add(el)
 
 
     fun writeToDisk() {

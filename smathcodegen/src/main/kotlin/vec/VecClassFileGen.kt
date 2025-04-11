@@ -42,25 +42,39 @@ class VecClassFileGen(
                 )
             )
         }*/
+        it.writeStr("\n")
         it.addElem(companionRepr)
     }
 
 
     fun make() {
 
-        codeFile.addElem(vecClassRepr)
 
+
+
+        // Imports
+        imports()
+        codeFile.writeStr("\n")
+        codeFile.addElem(vecClassRepr)
+        vecClassRepr.writeStr("\n")
 
         // Companion
         companionFuncs()
+        companionRepr.writeStr("\n")
         constants()
+
 
         // Main class body
         constructors()
+        vecClassRepr.writeStr("\n")
         piecewiseBinaryOps()
         piecewiseUnaryOps()
+        vecClassRepr.writeStr("\n")
         specialFuncs()
+        vecClassRepr.writeStr("\n")
         swizzles()
+        vecClassRepr.writeStr("\n")
+        toStringFunc()
 
 
         funConstructors()
@@ -78,6 +92,10 @@ class VecClassFileGen(
 
 
 
+
+private fun VecClassFileGen.imports() {
+    codeFile.writeStr("import java.util.*\n")
+}
 
 
 private fun VecClassFileGen.piecewiseBinaryOps() {
@@ -301,12 +319,69 @@ private fun VecClassFileGen.funConstructors() {
 private fun VecClassFileGen.specialFuncs() {
     val typeData = NAMES_TO_NUM_TYPES[compType]!!
 
+    // Eq
     vecClassRepr.addElem(
         MethodRepr(listOf(), "eq", listOf(FunParam("other", className)), true)
             .also { it.addElem { code, context ->
                     code.append("${compNames.joinToString(" && ") { "$it == other.$it" }}")
                 }
             }
+    )
+
+    // Abs
+    if (!typeData.isUnsigned()) {
+        if (typeData.needToBumpToInt()) {
+            val convStr = getNumConvData(typeData.name, "Int").convStr
+            val invConvStr = getNumConvData("Int", typeData.name).convStr
+            vecClassRepr.addElem(
+                MethodRepr(listOf(), "abs", listOf(), true).also {
+                    it.writeStr("$className(${compNames.joinToString(", ") { "kotlin.math.abs($it$convStr)$invConvStr" }})")
+                }
+            )
+        } else {
+            vecClassRepr.addElem(
+                MethodRepr(listOf(), "abs", listOf(), true).also {
+                    it.writeStr("$className(${compNames.joinToString(", ") { "kotlin.math.abs($it)" }})")
+                }
+            )
+        }
+    }
+
+    // Mod
+    vecClassRepr.addElem(
+        MethodRepr(listOf(), "mod", listOf(FunParam("value", compType)), true).also {
+            it.writeStr("$className(${compNames.joinToString(", ") { "$it.mod(value)" }})")
+        }
+    )
+    vecClassRepr.addElem(
+        MethodRepr(listOf(), "mod", listOf(FunParam("other", className)), true).also {
+            it.writeStr("$className(${compNames.joinToString(", ") { "$it.mod(other.$it)" }})")
+        }
+    )
+
+}
+
+
+private fun VecClassFileGen.toStringFunc() {
+
+    val typeData = NAMES_TO_NUM_TYPES[compType]!!
+
+    vecClassRepr.addElem(MethodRepr(listOf("override"), "toString", listOf(), false, "String")
+        .also {
+            var s = "return (\"$className(\" + \n"
+            compNames.withIndex().forEach { (compIdx, compName) ->
+                s += "        "
+                if (typeData.isFloatNum()) {
+                    s += "\"$compName=\${\"%.5f\".format(Locale.ENGLISH, $compName)}"
+                } else {
+                    s += "\"$compName=\$$compName"
+                }
+
+                if (compIdx != compNames.size - 1) s += ", \" + \n"
+                else s += ")\")"
+            }
+            it.writeContextAwareStr(s)
+        }
     )
 
 }
@@ -360,7 +435,7 @@ private fun VecClassFileGen.piecewiseUnaryOp(opName: String, opSymbol: String) {
 
 private fun VecClassFileGen.piecewiseBinaryOp(opName: String, opSymbol: String) {
     val typeData = NAMES_TO_NUM_TYPES[compType]!!
-    val extraConversionNeeded = typeData.easilyNeedsReconversion() && (opName in
+    val extraConversionNeeded = typeData.needToBumpToInt() && (opName in
             listOf("plus", "minus", "times", "div", "rem")
     )
 

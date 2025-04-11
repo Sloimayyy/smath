@@ -2,7 +2,6 @@ package com.sloimay
 
 import com.sloimay.smath.matrices.Mat4
 import com.sloimay.smath.vectors.*
-import com.sloimay.smath.vectors.Vec3Impl.Y
 import java.math.BigDecimal
 import kotlin.math.PI
 import kotlin.time.ExperimentalTime
@@ -72,10 +71,10 @@ fun main() {
 
 
 
-    val myPoint = Vec3Ext(1f, 1f, 1f)
+    val myPoint = Vec3(1f, 1f, 1f)
 
-    val trans = Mat4.fromTranslation(Vec3Ext(2.97853f, 2f, 2f))
-    val rot = Mat4.fromQuat(Quat.fromAxisAngle(Vec3Ext.Y, (PI/3).toFloat()))
+    val trans = Mat4.fromTranslation(Vec3(2.97853f, 2f, 2f))
+    val rot = Mat4.fromQuat(Quat.fromAxisAngle(Vec3.Y, (PI/3).toFloat()))
     val myTransform = trans.mul(rot)
 
     println(myTransform.inverse().transformPoint(myTransform.transformPoint(myPoint)))

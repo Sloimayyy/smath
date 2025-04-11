@@ -8,11 +8,11 @@ class ValDeclarationRepr(
     val name: String,
     val type: String,
     val normalizedExpr: String? = null,
-) : CodeWriteElement {
+) : CodeWriteElement, CwElementContainer {
 
     private val els = mutableListOf<CodeWriteElement>()
 
-    fun addElem(el: CodeWriteElement) = els.add(el)
+    override fun addElem(el: CodeWriteElement) = els.add(el)
 
     override fun write(code: StringBuilder, context: CodeWriterContext) {
         val indentStr = indentStr(context.indent)

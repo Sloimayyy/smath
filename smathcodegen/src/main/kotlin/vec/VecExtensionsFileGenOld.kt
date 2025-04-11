@@ -112,7 +112,7 @@ private fun VecExtensionsFileGenOld.specialFuncs() {
 
     // Abs
     if (!typeData.isUnsigned()) {
-        if (typeData.easilyNeedsReconversion()) {
+        if (typeData.needToBumpToInt()) {
             val convStr = getNumConvData(typeData.name, "Int").convStr
             val invConvStr = getNumConvData("Int", typeData.name).convStr
             codeFile.oneLinerExtensionFunc(
@@ -153,7 +153,7 @@ private fun VecExtensionsFileGenOld.specialFuncs() {
     for (funcName in listOf("min", "max")) {
         val convStr = getNumConvData(typeData.name, if (typeData.isUnsigned()) "UInt" else "Int").convStr
         val invConvStr = getNumConvData(if (typeData.isUnsigned()) "UInt" else "Int", typeData.name).convStr
-        val applyConvs = typeData.easilyNeedsReconversion()
+        val applyConvs = typeData.needToBumpToInt()
 
         codeFile.oneLinerExtensionFunc(
             listOf(), className, funcName, listOf(
@@ -188,7 +188,7 @@ private fun VecExtensionsFileGenOld.specialFuncs() {
             ), compType,
             maybeApplyMemberFunc("${compNames.joinToString(" + ") {
                 "$it * other.$it"
-            }}", convStr, true, typeData.easilyNeedsReconversion())
+            }}", convStr, true, typeData.needToBumpToInt())
         )
     }
 
@@ -375,7 +375,7 @@ private fun VecExtensionsFileGenOld.constant(
 
 private fun VecExtensionsFileGenOld.piecewiseBinaryOp(opName: String, opSymbol: String) {
     val typeData = NAMES_TO_NUM_TYPES[compType]!!
-    val extraConversionNeeded = typeData.easilyNeedsReconversion() && (opName in
+    val extraConversionNeeded = typeData.needToBumpToInt() && (opName in
             listOf("plus", "minus", "times", "div", "rem")
     )
 
