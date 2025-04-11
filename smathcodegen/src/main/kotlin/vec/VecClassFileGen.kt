@@ -119,7 +119,7 @@ private fun VecClassFileGen.piecewiseUnaryOps() {
 
 private fun VecClassFileGen.getOperator() {
 
-    for (t in NUM_TYPES) {
+    for (t in JAVA_NUM_TYPES) {
         val convStr = getNumConvData(t.name, "Int").convStr
         vecClassRepr.addElem(
             MethodRepr(
@@ -146,32 +146,38 @@ private fun VecClassFileGen.companionFuncs() {
     val typeData = NAMES_TO_NUM_TYPES[compType]!!
 
     // Splat
-    companionRepr.addElem(
-        MethodRepr(
-            listOf(),
-            "splat",
-            listOf(FunParam("value", compType)),
-            true,
-        ).also {
-            it.addElem { code, context ->
-                code.append("$className(${compNames.joinToString(", ") { "value" }})")
+    for (t in JAVA_NUM_TYPES) {
+        companionRepr.addElem(
+            MethodRepr(
+                listOf(),
+                "splat",
+                listOf(FunParam("value", t.name)),
+                true,
+            ).also {
+                it.addElem { code, context ->
+                    code.append("$className(${compNames.joinToString(", ") { "value" }})")
+                }
             }
-        }
-    )
+        )
+    }
 
     // New
-    companionRepr.addElem(
-        MethodRepr(
-            listOf(),
-            "new",
-            compNames.map { FunParam(it, compType) },
-            true,
-        ).also {
-            it.addElem { code, context ->
-                code.append("$className(${compNames.joinToString(", ") { "$it" }})")
+    for (t in JAVA_NUM_TYPES) {
+        companionRepr.addElem(
+            MethodRepr(
+                listOf(),
+                "new",
+                compNames.map { FunParam(it, t.name) },
+                true,
+            ).also {
+                it.addElem { code, context ->
+                    code.append("$className(${compNames.joinToString(", ") { "$it" }})")
+                }
             }
-        }
-    )
+        )
+    }
+
+    companionRepr.writeStr("\n")
 
     // FromArray
     if (!typeData.isUnsigned()) {
@@ -302,7 +308,7 @@ private fun VecClassFileGen.swizzles() {
 
 private fun VecClassFileGen.constructors() {
 
-    for (t in NUM_TYPES) {
+    for (t in JAVA_NUM_TYPES) {
         for (d in listOf(1, dims)) {
             if (d == 1) {
                 vecClassRepr.addElem { code, context ->
@@ -349,13 +355,26 @@ private fun VecClassFileGen.constructors() {
         code.append( compNames.joinToString { numStrToTyped("0", compType) } )
         code.append(")\n")
     }
+
+    // Lambda constructor
+    for (t in JAVA_NUM_TYPES) {
+        // Lambda constructors don't seem to infer return types easily
+        // so we'll stay with only its matching compType for now
+        if (t.name != compType) continue
+
+        vecClassRepr.addElem { code, context ->
+            code.append("${indentStr(context.indent)}constructor(lamb: (Int) -> ${t.name}) : this(" +
+                    "${compNames.withIndex().map { it.index }.joinToString { "lamb($it)" }}" +
+                    ")\n")
+        }
+    }
 }
 
 
 private fun VecClassFileGen.funConstructors() {
 
     // Function constructors with dims >= 1
-    for (t in NUM_TYPES) {
+    for (t in JAVA_NUM_TYPES) {
         for (d in listOf(1, dims)) {
             codeFile.addElem(
                 MethodRepr(
@@ -651,20 +670,28 @@ private fun VecClassFileGen.specialFuncs() {
             MethodRepr(
                 listOf(), "cross", listOf(FunParam("other", className)), true
             ).also {
+                var forcedZeroType: String? = null
                 val convStr = if (typeData.isUnsigned()) {
                     when (typeData.name) {
-                        "UByte" -> ".toInt()"
-                        "UShort" -> ".toInt()"
+                        "UByte" -> { forcedZeroType = "Int"; ".toInt()" }
+                        "UShort" -> { forcedZeroType = "Int"; ".toInt()" }
                         "UInt" -> ""
-                        "ULong" -> ".toLong()"
+                        "ULong" -> { forcedZeroType = "Long"; ".toLong()" }
                         else -> error("Unsupported unsigned type ${typeData.name}")
                     }
                 } else {
                     ""
                 }
+                if (typeData.bits < 32) {
+                    forcedZeroType = "Int"
+                }
 
                 if (dims == 2) {
-                    val zeroStr = numStrToTyped("0", compType)
+                    val zeroStr = if (forcedZeroType == null) {
+                        numStrToTyped("0", compType)
+                    } else {
+                        numStrToTyped("0", forcedZeroType)
+                    }
                     it.writeStr("${vecName}3($zeroStr, $zeroStr, x$convStr * other.y$convStr - other.x$convStr * y$convStr)")
                 }
 
@@ -694,6 +721,48 @@ private fun VecClassFileGen.specialFuncs() {
         )
     }
 
+    // Lerp
+    run {
+        if (!typeData.isFloatNum()) {
+            val convertStr = if (typeData.isFloatNum()) ""
+            else if (typeData.bits < 32) ".toVec$dims()"
+            else ".toDVec$dims()"
+
+            val tArgType = if (typeData.bits <= 32) "Float" else "Double"
+            val tType = if (typeData.bits < 32) "Float" else "Double"
+            val tConvertStr = if (typeData.bits == 32) ".to$tType()" else ""
+
+            vecClassRepr.addElem(
+                MethodRepr(
+                    listOf(),
+                    "lerp",
+                    listOf(FunParam("other", className), FunParam("t", tArgType)),
+                    true,
+                ).also {
+                    val oneStr = numStrToTyped("1", tType)
+                    it.writeStr("this$convertStr * ($oneStr - t$tConvertStr) + other$convertStr * t$tConvertStr")
+                }
+            )
+        } else {
+            vecClassRepr.addElem(
+                MethodRepr(
+                    listOf(),
+                    "lerp",
+                    listOf(FunParam("other", className), FunParam("t", compType)),
+                    true,
+                ).also {
+                    val tType = compType
+                    val oneStr = numStrToTyped("1", tType)
+                    it.writeStr("this * ($oneStr - t) + other * t")
+                }
+            )
+        }
+    }
+
+
+
+
+
 
     if (!typeData.isFloatNum()) {
         specialIntegerFuncs()
@@ -712,7 +781,7 @@ private fun VecClassFileGen.specialFuncs() {
         if (higherDimVecs.size > 1) error("Extend method encountered multiple result vecs, but there should only be one.")
         val higherDimVec = higherDimVecs[0]
 
-        for (t in NUM_TYPES) {
+        for (t in JAVA_NUM_TYPES) {
             val convStr = getNumConvData(t.name, compType).convStr
 
             vecClassRepr.addElem(
@@ -737,7 +806,7 @@ private fun VecClassFileGen.specialFuncs() {
     }
 
     // WithElement
-    for (t in NUM_TYPES) {
+    for (t in JAVA_NUM_TYPES) {
         vecClassRepr.addElem(
             MethodRepr(
                 listOf(),
@@ -759,7 +828,7 @@ private fun VecClassFileGen.specialFuncs() {
 
     // WithXYZW..
     for ((compIndex, compName) in compNames.withIndex()) {
-        for (t in NUM_TYPES) {
+        for (t in JAVA_NUM_TYPES) {
             val convStr = getNumConvData(t.name, compType).convStr
             vecClassRepr.addElem(
                 MethodRepr(
@@ -888,19 +957,21 @@ private fun VecClassFileGen.specialFloatFuncs() {
         it.writeStr("mod(${numStrToTyped("1", compType)})")
     })
 
-    // Quat mul (DQuat coming later?)
-    vecClassRepr.addElem(MethodRepr(
-        listOf(), "quatMul", listOf(FunParam("q", "Quat")), false, className,
-    ).also {
-        it.writeContextAwareStr("""
-            val u = $className(q.x, q.y, q.z)
-            val scalar = q.w${if(compType=="Double")".toDouble()" else ""}
-            return (
-                    (2f * u.dot(this) * u) +
-                    (scalar * scalar - u.dot(u)) * this +
-                    (2f * scalar * u.cross(this))
-            )""".trimIndent())
-    })
+    // QuatMul (DQuat coming later?)
+    if (dims == 3) {
+        vecClassRepr.addElem(MethodRepr(
+            listOf(), "quatMul", listOf(FunParam("q", "Quat")), false, className,
+        ).also {
+            it.writeContextAwareStr("""
+                val u = $className(q.x, q.y, q.z)
+                val scalar = q.w${if(compType=="Double")".toDouble()" else ""}
+                return (
+                        (2f * u.dot(this) * u) +
+                        (scalar * scalar - u.dot(u)) * this +
+                        (2f * scalar * u.cross(this))
+                )""".trimIndent())
+        })
+    }
 
 }
 

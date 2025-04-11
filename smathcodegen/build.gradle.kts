@@ -13,7 +13,7 @@ dependencies {
     testImplementation(kotlin("test"))
 }
 
-tasks.register<JavaExec>("generateCode") {
+/*tasks.register<JavaExec>("generateCode") {
     group = "smath"
     description = "Generate code for smath"
 
@@ -26,7 +26,7 @@ tasks.register<JavaExec>("generateCode") {
     isIgnoreExitValue = false
 }
 
-tasks.getByName("build").dependsOn("generateCode")
+tasks.getByName("build").dependsOn("generateCode")*/
 
 
 tasks.test {

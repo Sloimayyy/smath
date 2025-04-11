@@ -5,6 +5,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
+/*
 data class DVec2(val x: Double, val y: Double) {
 
     companion object {
@@ -101,3 +102,4 @@ data class DVec2(val x: Double, val y: Double) {
 }
 
 fun dvec2(x: Double, y: Double) = DVec2.new(x, y)
+ */

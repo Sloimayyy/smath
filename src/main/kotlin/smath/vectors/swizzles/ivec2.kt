@@ -1,7 +1,9 @@
 package com.sloimay.smath.vectors.swizzles
 
+/*
 import com.sloimay.smath.vectors.IVec2
 import com.sloimay.smath.vectors.IVec3
+
 
 val IVec2.xx get() = IVec2.new(x, x)
 val IVec2.xy get() = IVec2.new(x, y)
@@ -15,3 +17,5 @@ val IVec2.yxx get() = IVec3.new(y, x, x)
 val IVec2.yxy get() = IVec3.new(y, x, y)
 val IVec2.yyx get() = IVec3.new(y, y, x)
 val IVec2.yyy get() = IVec3.new(y, y, y)
+
+ */

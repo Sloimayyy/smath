@@ -12,7 +12,7 @@ java {
 }
 
 group = "com.github.sloimayyy"
-version = "1.0.7"
+version = "1.1.0"
 
 repositories {
     mavenCentral()
@@ -27,7 +27,7 @@ dependencies {
     //implementation(project(":vectorgenerated"))
     //testImplementation(kotlin("test"))
 
-    implementation(project(":smathcodegen"))
+    //implementation(project(":smathcodegen"))
 }
 
 

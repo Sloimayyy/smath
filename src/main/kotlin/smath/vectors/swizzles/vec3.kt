@@ -1,5 +1,6 @@
 package com.sloimay.smath.vectors.swizzles
 
+/*
 import com.sloimay.smath.vectors.Vec2
 import com.sloimay.smath.vectors.Vec3Ext
 import com.sloimay.smath.vectors.Vec4
@@ -122,3 +123,5 @@ val Vec3Ext.zzyz get() = Vec4.new(z, z, y, z)
 val Vec3Ext.zzzx get() = Vec4.new(z, z, z, x)
 val Vec3Ext.zzzy get() = Vec4.new(z, z, z, y)
 val Vec3Ext.zzzz get() = Vec4.new(z, z, z, z)
+
+ */

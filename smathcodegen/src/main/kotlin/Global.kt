@@ -9,13 +9,52 @@ class VecToGen(val vecName: String, val compType: String, val dims: Int) {
     val compNames = COORDS_NAME.toList().slice(0 until dims)
 }
 val VECS_TO_GEN = listOf(
+    VecToGen("BVec", "Byte", 2),
+    VecToGen("BVec", "Byte", 3),
+    VecToGen("BVec", "Byte", 4),
+
+    //VecToGen("UbVec", "UByte", 2),
+    //VecToGen("UbVec", "UByte", 3),
+    //VecToGen("UbVec", "UByte", 4),
+
+    VecToGen("SVec", "Short", 2),
+    VecToGen("SVec", "Short", 3),
+    VecToGen("SVec", "Short", 4),
+
+    //VecToGen("UsVec", "UShort", 2),
+    //VecToGen("UsVec", "UShort", 3),
+    //VecToGen("UsVec", "UShort", 4),
+
+    VecToGen("IVec", "Int", 2),
+    VecToGen("IVec", "Int", 3),
+    VecToGen("IVec", "Int", 4),
+
+    //VecToGen("UiVec", "UInt", 2),
+    //VecToGen("UiVec", "UInt", 3),
+    //VecToGen("UiVec", "UInt", 4),
+
+    VecToGen("LVec", "Long", 2),
+    VecToGen("LVec", "Long", 3),
+    VecToGen("LVec", "Long", 4),
+
+    //VecToGen("UlVec", "ULong", 2),
+    //VecToGen("UlVec", "ULong", 3),
+    //VecToGen("UlVec", "ULong", 4),
+
     VecToGen("Vec", "Float", 2),
     VecToGen("Vec", "Float", 3),
+    VecToGen("Vec", "Float", 4),
+
+    VecToGen("DVec", "Double", 2),
+    VecToGen("DVec", "Double", 3),
+    VecToGen("DVec", "Double", 4),
+
+    /*VecToGen("Vec", "Float", 3),
     VecToGen("DVec", "Double", 3),
     VecToGen("UbVec", "UByte", 3),
     VecToGen("BVec", "Byte", 3),
     VecToGen("LVec", "Long", 3),
-    VecToGen("SVec", "Short", 4),
+    VecToGen("SVec", "Short", 4),*/
 )
 
 fun getVecsToGenWithDimsAndName(name: String, dims: Int): List<VecToGen> {
@@ -185,6 +224,20 @@ val NUM_TYPES = run {
     )
     l
 }
+
+val JAVA_NUM_TYPES = run {
+    val l = listOf(
+        NumTypeData("Byte", Byte::class.java, 8),
+        NumTypeData("Short", Short::class.java, 16),
+        NumTypeData("Int", Int::class.java, 32),
+        NumTypeData("Long", Long::class.java, 64),
+
+        NumTypeData("Float", Float::class.java, 32),
+        NumTypeData("Double", Double::class.java, 64),
+    )
+    l
+}
+
 val NAMES_TO_NUM_TYPES = run {
     val m = HashMap<String, NumTypeData>()
     m.putAll(NUM_TYPES.map { it.name to it })

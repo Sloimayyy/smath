@@ -2,6 +2,7 @@ package com.sloimay.smath.vectors
 import java.util.*
 import kotlin.math.*
 
+/*
 data class Vec4(val x: Float, val y: Float, val z: Float, val w: Float) {
 
     companion object {
@@ -93,3 +94,4 @@ operator fun Float.times(vec: Vec4) = vec * this
 operator fun Float.div(vec: Vec4) = Vec4.new(this / vec.x, this / vec.y, this / vec.z, this / vec.w)
 
 fun vec4(x: Float, y: Float, z: Float, w: Float) = Vec4.new(x, y, z, w)
+*/

@@ -3,7 +3,6 @@ package com.sloimay.smath.matrices
 import com.sloimay.smath.vectors.Quat
 import com.sloimay.smath.vectors.Vec4
 import com.sloimay.smath.vectors.Vec3
-import com.sloimay.smath.vectors.swizzles.xyz
 
 /**
  *
@@ -102,8 +101,8 @@ class Mat4(values: FloatArray) {
 
 
     fun timesVec4(vec4: Vec4): Vec4 {
-        return Vec4.fromLambda {
-            return@fromLambda (
+        return Vec4 { it ->
+            return@Vec4 (
                 this[0, it] * vec4.x +
                 this[1, it] * vec4.y +
                 this[2, it] * vec4.z +

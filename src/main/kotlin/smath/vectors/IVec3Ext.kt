@@ -1,6 +1,7 @@
 package com.sloimay.smath.vectors
 import kotlin.math.*
 
+/*
 data class IVec3(val x: Int, val y: Int, val z: Int) {
 
     companion object {
@@ -130,3 +131,5 @@ operator fun Int.times(vec: IVec3) = vec * this
 operator fun Int.div(vec: IVec3) = IVec3(this / vec.x, this / vec.y, this / vec.z)
 
 fun ivec3(x: Int, y: Int, z: Int) = IVec3.new(x, y, z)
+
+ */

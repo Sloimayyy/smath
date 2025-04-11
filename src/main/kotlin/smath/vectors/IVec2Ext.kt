@@ -1,6 +1,7 @@
 package com.sloimay.smath.vectors
 import kotlin.math.*
 
+/*
 data class IVec2(val x: Int, val y: Int) {
 
     companion object {
@@ -128,3 +129,5 @@ data class IVec2(val x: Int, val y: Int) {
 
 
 fun ivec2(x: Int, y: Int) = IVec2.new(x, y)
+
+ */
