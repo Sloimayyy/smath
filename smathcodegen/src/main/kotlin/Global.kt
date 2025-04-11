@@ -14,6 +14,8 @@ val VECS_TO_GEN = listOf(
     VecToGen("DVec", "Double", 3),
     VecToGen("UbVec", "UByte", 3),
     VecToGen("BVec", "Byte", 3),
+    VecToGen("LVec", "Long", 3),
+    VecToGen("SVec", "Short", 4),
 )
 
 fun getVecsToGenWithDimsAndName(name: String, dims: Int): List<VecToGen> {
@@ -44,7 +46,7 @@ NumConvData("Byte", "Double", "Double"),
  */
 
 val NUM_CONV_DATA = listOf(
-    NumConvData("Byte", "Byte", ""),
+    NumConvData("Byte", "Byte", ),
     NumConvData("Byte", "UByte", "UByte"),
     NumConvData("Byte", "Short", "Short"),
     NumConvData("Byte", "UShort", "UShort"),
@@ -56,7 +58,7 @@ val NUM_CONV_DATA = listOf(
     NumConvData("Byte", "Double", "Double"),
 
     NumConvData("UByte", "Byte", "Byte"),
-    NumConvData("UByte", "UByte", ""),
+    NumConvData("UByte", "UByte", ),
     NumConvData("UByte", "Short", "Short"),
     NumConvData("UByte", "UShort", "UShort"),
     NumConvData("UByte", "Int", "Int"),
@@ -68,7 +70,7 @@ val NUM_CONV_DATA = listOf(
 
     NumConvData("Short", "Byte", "Byte"),
     NumConvData("Short", "UByte", "UByte"),
-    NumConvData("Short", "Short", ""),
+    NumConvData("Short", "Short", ),
     NumConvData("Short", "UShort", "UShort"),
     NumConvData("Short", "Int", "Int"),
     NumConvData("Short", "UInt", "UInt"),
@@ -80,7 +82,7 @@ val NUM_CONV_DATA = listOf(
     NumConvData("UShort", "Byte", "Byte"),
     NumConvData("UShort", "UByte", "UByte"),
     NumConvData("UShort", "Short", "Short"),
-    NumConvData("UShort", "UShort", ""),
+    NumConvData("UShort", "UShort", ),
     NumConvData("UShort", "Int", "Int"),
     NumConvData("UShort", "UInt", "UInt"),
     NumConvData("UShort", "Long", "Long"),
@@ -92,7 +94,7 @@ val NUM_CONV_DATA = listOf(
     NumConvData("Int", "UByte", "UByte"),
     NumConvData("Int", "Short", "Short"),
     NumConvData("Int", "UShort", "UShort"),
-    NumConvData("Int", "Int", ""),
+    NumConvData("Int", "Int", ),
     NumConvData("Int", "UInt", "UInt"),
     NumConvData("Int", "Long", "Long"),
     NumConvData("Int", "ULong", "ULong"),
@@ -104,7 +106,7 @@ val NUM_CONV_DATA = listOf(
     NumConvData("UInt", "Short", "Short"),
     NumConvData("UInt", "UShort", "UShort"),
     NumConvData("UInt", "Int", "Int"),
-    NumConvData("UInt", "UInt", ""),
+    NumConvData("UInt", "UInt", ),
     NumConvData("UInt", "Long", "Long"),
     NumConvData("UInt", "ULong", "ULong"),
     NumConvData("UInt", "Float", "Float"),
@@ -116,7 +118,7 @@ val NUM_CONV_DATA = listOf(
     NumConvData("Long", "UShort", "UShort"),
     NumConvData("Long", "Int", "Int"),
     NumConvData("Long", "UInt", "UInt"),
-    NumConvData("Long", "Long", ""),
+    NumConvData("Long", "Long", ),
     NumConvData("Long", "ULong", "ULong"),
     NumConvData("Long", "Float", "Float"),
     NumConvData("Long", "Double", "Double"),
@@ -128,7 +130,7 @@ val NUM_CONV_DATA = listOf(
     NumConvData("ULong", "Int", "Int"),
     NumConvData("ULong", "UInt", "UInt"),
     NumConvData("ULong", "Long", "Long"),
-    NumConvData("ULong", "ULong", ""),
+    NumConvData("ULong", "ULong", ),
     NumConvData("ULong", "Float", "Float"),
     NumConvData("ULong", "Double", "Double"),
 
@@ -140,7 +142,7 @@ val NUM_CONV_DATA = listOf(
     NumConvData("Float", "UInt", "UInt"),
     NumConvData("Float", "Long", "Long"),
     NumConvData("Float", "ULong", "ULong"),
-    NumConvData("Float", "Float", ""),
+    NumConvData("Float", "Float", ),
     NumConvData("Float", "Double", "Double"),
 
     NumConvData("Double", "Byte", "Int", "Byte"),
@@ -152,7 +154,7 @@ val NUM_CONV_DATA = listOf(
     NumConvData("Double", "Long", "Long"),
     NumConvData("Double", "ULong", "ULong"),
     NumConvData("Double", "Float", "Float"),
-    NumConvData("Double", "Double", ""),
+    NumConvData("Double", "Double", ),
 )
 
 

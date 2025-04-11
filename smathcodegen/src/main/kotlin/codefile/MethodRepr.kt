@@ -39,7 +39,7 @@ class MethodRepr(
 
         if (!oneLiner) {
             code.append(indentStr(context.indent))
-            code.append("}")
+            code.append("}\n")
         }
     }
 

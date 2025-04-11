@@ -8,7 +8,6 @@ fun main() {
 
     //val s = "package com.sloimay.smath.vectors\n\ndata class Vec5(val x: Float, val y: Float, val z: Float, val w: Float, val v: Float)"
 
-
     for (vecToGen in VECS_TO_GEN) {
         VecClassFileGen(vecToGen).make()
     }

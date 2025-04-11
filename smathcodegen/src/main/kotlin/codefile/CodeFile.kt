@@ -25,6 +25,7 @@ class CodeFile(
         this.write(code, writerContext)
 
         filePath.toFile().writeText(code.toString())
+        println("writing ${filePath}")
     }
 
     override fun write(code: StringBuilder, context: CodeWriterContext) {

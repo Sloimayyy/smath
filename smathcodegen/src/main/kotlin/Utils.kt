@@ -96,12 +96,47 @@ fun <T> cartesianProd(inputSpaces: List<List<T>>): Iterator<List<T>> {
                 } else {
                     break
                 }
-                println("HELLO")
             }
 
             return indexes.mapIndexed { inputSpaceIdx, idxInInputSpace -> inputSpaces[inputSpaceIdx][idxInInputSpace] }
         }
 
     }
+}
+
+fun highestSetBit(i: Int): Int {
+    return i.takeHighestOneBit().countTrailingZeroBits()
+}
+
+fun combineArgsWithCommutativeBiFunc(args: List<String>, biFuncName: String): String {
+    val argCount = args.size
+    require(argCount >= 2) { "Requires arg count to be greater or equal to 2 but got $argCount" }
+
+    val startLayer = highestSetBit(argCount - 1)
+    val layerIdxOffset = 1 shl startLayer
+
+    fun recur(argIdx: Int, layer: Int, layerIdxOffset: Int): String {
+        if (layer == 0) {
+            return args[argIdx]
+        }
+
+        val left = recur(argIdx, layer - 1, layerIdxOffset / 2)
+
+        val rightIdx = argIdx + layerIdxOffset
+        val right = if (rightIdx < args.size) {
+            recur(rightIdx, layer - 1, layerIdxOffset / 2)
+        } else {
+            null
+        }
+
+        if (right != null) {
+            return "$biFuncName($left, $right)"
+        } else {
+            return left
+        }
+    }
+
+
+    return recur(0, startLayer + 1, layerIdxOffset)
 }
 
