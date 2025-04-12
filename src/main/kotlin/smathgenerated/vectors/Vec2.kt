@@ -62,12 +62,30 @@ data class Vec2(val x: Float, val y: Float) {
     operator fun rem(other: Float) = Vec2(x % other, y % other)
     operator fun unaryPlus() = this
     operator fun unaryMinus() = Vec2(-x, -y)
-    operator fun get(idx: Byte) = when (idx.toInt()) { 0 -> x; else -> y }
-    operator fun get(idx: Short) = when (idx.toInt()) { 0 -> x; else -> y }
-    operator fun get(idx: Int) = when (idx) { 0 -> x; else -> y }
-    operator fun get(idx: Long) = when (idx.toInt()) { 0 -> x; else -> y }
-    operator fun get(idx: Float) = when (idx.toInt()) { 0 -> x; else -> y }
-    operator fun get(idx: Double) = when (idx.toInt()) { 0 -> x; else -> y }
+    operator fun get(idx: Byte): Float {
+        require(idx in 0 until 2) { 
+            "Vec2 indexing failed. Index should be in the range of 0 to 1 (inclusive) but got ${idx}."
+        }
+        return when (idx.toInt()) { 0 -> x; else -> y }
+    }
+    operator fun get(idx: Short): Float {
+        require(idx in 0 until 2) { 
+            "Vec2 indexing failed. Index should be in the range of 0 to 1 (inclusive) but got ${idx}."
+        }
+        return when (idx.toInt()) { 0 -> x; else -> y }
+    }
+    operator fun get(idx: Int): Float {
+        require(idx in 0 until 2) { 
+            "Vec2 indexing failed. Index should be in the range of 0 to 1 (inclusive) but got ${idx}."
+        }
+        return when (idx) { 0 -> x; else -> y }
+    }
+    operator fun get(idx: Long): Float {
+        require(idx in 0 until 2) { 
+            "Vec2 indexing failed. Index should be in the range of 0 to 1 (inclusive) but got ${idx}."
+        }
+        return when (idx.toInt()) { 0 -> x; else -> y }
+    }
 
     fun toBVec2() = BVec2(x.toInt().toByte(), y.toInt().toByte())
     fun toSVec2() = SVec2(x.toInt().toShort(), y.toInt().toShort())
@@ -84,14 +102,10 @@ data class Vec2(val x: Float, val y: Float) {
     fun clamp(low: Vec2, high: Vec2) = Vec2(max(min(x, high.x), low.x), max(min(y, high.y), low.y))
     fun dot(other: Vec2) = x * other.x + y * other.y
     fun lenSq() = dot(this)
-    fun magSq() = dot(this)
     fun len() = sqrt(lenSq())
-    fun mag() = sqrt(lenSq())
     fun dist(other: Vec2) = (this - other).len()
     fun distSq(other: Vec2) = (this - other).lenSq()
     fun normalize() = this / len()
-    fun norm() = this / len()
-    fun unit() = this / len()
     fun dir() = this / len()
     fun elementSum() = x + y
     fun eSum() = x + y
@@ -124,6 +138,18 @@ data class Vec2(val x: Float, val y: Float) {
     fun withElement(elementIdx: Int, value: Long) = when (elementIdx) { 0 -> withX(value); else -> withY(value) }
     fun withElement(elementIdx: Int, value: Float) = when (elementIdx) { 0 -> withX(value); else -> withY(value) }
     fun withElement(elementIdx: Int, value: Double) = when (elementIdx) { 0 -> withX(value); else -> withY(value) }
+    fun perm(other: BVec2) = Vec2(this[other.x.toInt()], this[other.y.toInt()])
+    fun perm(other: SVec2) = Vec2(this[other.x.toInt()], this[other.y.toInt()])
+    fun perm(other: IVec2) = Vec2(this[other.x], this[other.y])
+    fun perm(other: LVec2) = Vec2(this[other.x.toInt()], this[other.y.toInt()])
+    fun perm(other: BVec3) = Vec3(this[other.x.toInt()], this[other.y.toInt()], this[other.z.toInt()])
+    fun perm(other: SVec3) = Vec3(this[other.x.toInt()], this[other.y.toInt()], this[other.z.toInt()])
+    fun perm(other: IVec3) = Vec3(this[other.x], this[other.y], this[other.z])
+    fun perm(other: LVec3) = Vec3(this[other.x.toInt()], this[other.y.toInt()], this[other.z.toInt()])
+    fun perm(other: BVec4) = Vec4(this[other.x.toInt()], this[other.y.toInt()], this[other.z.toInt()], this[other.w.toInt()])
+    fun perm(other: SVec4) = Vec4(this[other.x.toInt()], this[other.y.toInt()], this[other.z.toInt()], this[other.w.toInt()])
+    fun perm(other: IVec4) = Vec4(this[other.x], this[other.y], this[other.z], this[other.w])
+    fun perm(other: LVec4) = Vec4(this[other.x.toInt()], this[other.y.toInt()], this[other.z.toInt()], this[other.w.toInt()])
     fun withX(value: Byte) = Vec2(value.toFloat(), y)
     fun withX(value: Short) = Vec2(value.toFloat(), y)
     fun withX(value: Int) = Vec2(value.toFloat(), y)

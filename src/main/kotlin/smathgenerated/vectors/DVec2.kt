@@ -62,12 +62,30 @@ data class DVec2(val x: Double, val y: Double) {
     operator fun rem(other: Double) = DVec2(x % other, y % other)
     operator fun unaryPlus() = this
     operator fun unaryMinus() = DVec2(-x, -y)
-    operator fun get(idx: Byte) = when (idx.toInt()) { 0 -> x; else -> y }
-    operator fun get(idx: Short) = when (idx.toInt()) { 0 -> x; else -> y }
-    operator fun get(idx: Int) = when (idx) { 0 -> x; else -> y }
-    operator fun get(idx: Long) = when (idx.toInt()) { 0 -> x; else -> y }
-    operator fun get(idx: Float) = when (idx.toInt()) { 0 -> x; else -> y }
-    operator fun get(idx: Double) = when (idx.toInt()) { 0 -> x; else -> y }
+    operator fun get(idx: Byte): Double {
+        require(idx in 0 until 2) { 
+            "DVec2 indexing failed. Index should be in the range of 0 to 1 (inclusive) but got ${idx}."
+        }
+        return when (idx.toInt()) { 0 -> x; else -> y }
+    }
+    operator fun get(idx: Short): Double {
+        require(idx in 0 until 2) { 
+            "DVec2 indexing failed. Index should be in the range of 0 to 1 (inclusive) but got ${idx}."
+        }
+        return when (idx.toInt()) { 0 -> x; else -> y }
+    }
+    operator fun get(idx: Int): Double {
+        require(idx in 0 until 2) { 
+            "DVec2 indexing failed. Index should be in the range of 0 to 1 (inclusive) but got ${idx}."
+        }
+        return when (idx) { 0 -> x; else -> y }
+    }
+    operator fun get(idx: Long): Double {
+        require(idx in 0 until 2) { 
+            "DVec2 indexing failed. Index should be in the range of 0 to 1 (inclusive) but got ${idx}."
+        }
+        return when (idx.toInt()) { 0 -> x; else -> y }
+    }
 
     fun toBVec2() = BVec2(x.toInt().toByte(), y.toInt().toByte())
     fun toSVec2() = SVec2(x.toInt().toShort(), y.toInt().toShort())
@@ -84,14 +102,10 @@ data class DVec2(val x: Double, val y: Double) {
     fun clamp(low: DVec2, high: DVec2) = DVec2(max(min(x, high.x), low.x), max(min(y, high.y), low.y))
     fun dot(other: DVec2) = x * other.x + y * other.y
     fun lenSq() = dot(this)
-    fun magSq() = dot(this)
     fun len() = sqrt(lenSq())
-    fun mag() = sqrt(lenSq())
     fun dist(other: DVec2) = (this - other).len()
     fun distSq(other: DVec2) = (this - other).lenSq()
     fun normalize() = this / len()
-    fun norm() = this / len()
-    fun unit() = this / len()
     fun dir() = this / len()
     fun elementSum() = x + y
     fun eSum() = x + y
@@ -124,6 +138,18 @@ data class DVec2(val x: Double, val y: Double) {
     fun withElement(elementIdx: Int, value: Long) = when (elementIdx) { 0 -> withX(value); else -> withY(value) }
     fun withElement(elementIdx: Int, value: Float) = when (elementIdx) { 0 -> withX(value); else -> withY(value) }
     fun withElement(elementIdx: Int, value: Double) = when (elementIdx) { 0 -> withX(value); else -> withY(value) }
+    fun perm(other: BVec2) = DVec2(this[other.x.toInt()], this[other.y.toInt()])
+    fun perm(other: SVec2) = DVec2(this[other.x.toInt()], this[other.y.toInt()])
+    fun perm(other: IVec2) = DVec2(this[other.x], this[other.y])
+    fun perm(other: LVec2) = DVec2(this[other.x.toInt()], this[other.y.toInt()])
+    fun perm(other: BVec3) = DVec3(this[other.x.toInt()], this[other.y.toInt()], this[other.z.toInt()])
+    fun perm(other: SVec3) = DVec3(this[other.x.toInt()], this[other.y.toInt()], this[other.z.toInt()])
+    fun perm(other: IVec3) = DVec3(this[other.x], this[other.y], this[other.z])
+    fun perm(other: LVec3) = DVec3(this[other.x.toInt()], this[other.y.toInt()], this[other.z.toInt()])
+    fun perm(other: BVec4) = DVec4(this[other.x.toInt()], this[other.y.toInt()], this[other.z.toInt()], this[other.w.toInt()])
+    fun perm(other: SVec4) = DVec4(this[other.x.toInt()], this[other.y.toInt()], this[other.z.toInt()], this[other.w.toInt()])
+    fun perm(other: IVec4) = DVec4(this[other.x], this[other.y], this[other.z], this[other.w])
+    fun perm(other: LVec4) = DVec4(this[other.x.toInt()], this[other.y.toInt()], this[other.z.toInt()], this[other.w.toInt()])
     fun withX(value: Byte) = DVec2(value.toDouble(), y)
     fun withX(value: Short) = DVec2(value.toDouble(), y)
     fun withX(value: Int) = DVec2(value.toDouble(), y)

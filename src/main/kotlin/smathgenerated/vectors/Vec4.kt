@@ -64,12 +64,30 @@ data class Vec4(val x: Float, val y: Float, val z: Float, val w: Float) {
     operator fun rem(other: Float) = Vec4(x % other, y % other, z % other, w % other)
     operator fun unaryPlus() = this
     operator fun unaryMinus() = Vec4(-x, -y, -z, -w)
-    operator fun get(idx: Byte) = when (idx.toInt()) { 0 -> x; 1 -> y; 2 -> z; else -> w }
-    operator fun get(idx: Short) = when (idx.toInt()) { 0 -> x; 1 -> y; 2 -> z; else -> w }
-    operator fun get(idx: Int) = when (idx) { 0 -> x; 1 -> y; 2 -> z; else -> w }
-    operator fun get(idx: Long) = when (idx.toInt()) { 0 -> x; 1 -> y; 2 -> z; else -> w }
-    operator fun get(idx: Float) = when (idx.toInt()) { 0 -> x; 1 -> y; 2 -> z; else -> w }
-    operator fun get(idx: Double) = when (idx.toInt()) { 0 -> x; 1 -> y; 2 -> z; else -> w }
+    operator fun get(idx: Byte): Float {
+        require(idx in 0 until 4) { 
+            "Vec4 indexing failed. Index should be in the range of 0 to 3 (inclusive) but got ${idx}."
+        }
+        return when (idx.toInt()) { 0 -> x; 1 -> y; 2 -> z; else -> w }
+    }
+    operator fun get(idx: Short): Float {
+        require(idx in 0 until 4) { 
+            "Vec4 indexing failed. Index should be in the range of 0 to 3 (inclusive) but got ${idx}."
+        }
+        return when (idx.toInt()) { 0 -> x; 1 -> y; 2 -> z; else -> w }
+    }
+    operator fun get(idx: Int): Float {
+        require(idx in 0 until 4) { 
+            "Vec4 indexing failed. Index should be in the range of 0 to 3 (inclusive) but got ${idx}."
+        }
+        return when (idx) { 0 -> x; 1 -> y; 2 -> z; else -> w }
+    }
+    operator fun get(idx: Long): Float {
+        require(idx in 0 until 4) { 
+            "Vec4 indexing failed. Index should be in the range of 0 to 3 (inclusive) but got ${idx}."
+        }
+        return when (idx.toInt()) { 0 -> x; 1 -> y; 2 -> z; else -> w }
+    }
 
     fun toBVec4() = BVec4(x.toInt().toByte(), y.toInt().toByte(), z.toInt().toByte(), w.toInt().toByte())
     fun toSVec4() = SVec4(x.toInt().toShort(), y.toInt().toShort(), z.toInt().toShort(), w.toInt().toShort())
@@ -86,14 +104,10 @@ data class Vec4(val x: Float, val y: Float, val z: Float, val w: Float) {
     fun clamp(low: Vec4, high: Vec4) = Vec4(max(min(x, high.x), low.x), max(min(y, high.y), low.y), max(min(z, high.z), low.z), max(min(w, high.w), low.w))
     fun dot(other: Vec4) = x * other.x + y * other.y + z * other.z + w * other.w
     fun lenSq() = dot(this)
-    fun magSq() = dot(this)
     fun len() = sqrt(lenSq())
-    fun mag() = sqrt(lenSq())
     fun dist(other: Vec4) = (this - other).len()
     fun distSq(other: Vec4) = (this - other).lenSq()
     fun normalize() = this / len()
-    fun norm() = this / len()
-    fun unit() = this / len()
     fun dir() = this / len()
     fun elementSum() = x + y + z + w
     fun eSum() = x + y + z + w
@@ -119,6 +133,18 @@ data class Vec4(val x: Float, val y: Float, val z: Float, val w: Float) {
     fun withElement(elementIdx: Int, value: Long) = when (elementIdx) { 0 -> withX(value); 1 -> withY(value); 2 -> withZ(value); else -> withW(value) }
     fun withElement(elementIdx: Int, value: Float) = when (elementIdx) { 0 -> withX(value); 1 -> withY(value); 2 -> withZ(value); else -> withW(value) }
     fun withElement(elementIdx: Int, value: Double) = when (elementIdx) { 0 -> withX(value); 1 -> withY(value); 2 -> withZ(value); else -> withW(value) }
+    fun perm(other: BVec2) = Vec2(this[other.x.toInt()], this[other.y.toInt()])
+    fun perm(other: SVec2) = Vec2(this[other.x.toInt()], this[other.y.toInt()])
+    fun perm(other: IVec2) = Vec2(this[other.x], this[other.y])
+    fun perm(other: LVec2) = Vec2(this[other.x.toInt()], this[other.y.toInt()])
+    fun perm(other: BVec3) = Vec3(this[other.x.toInt()], this[other.y.toInt()], this[other.z.toInt()])
+    fun perm(other: SVec3) = Vec3(this[other.x.toInt()], this[other.y.toInt()], this[other.z.toInt()])
+    fun perm(other: IVec3) = Vec3(this[other.x], this[other.y], this[other.z])
+    fun perm(other: LVec3) = Vec3(this[other.x.toInt()], this[other.y.toInt()], this[other.z.toInt()])
+    fun perm(other: BVec4) = Vec4(this[other.x.toInt()], this[other.y.toInt()], this[other.z.toInt()], this[other.w.toInt()])
+    fun perm(other: SVec4) = Vec4(this[other.x.toInt()], this[other.y.toInt()], this[other.z.toInt()], this[other.w.toInt()])
+    fun perm(other: IVec4) = Vec4(this[other.x], this[other.y], this[other.z], this[other.w])
+    fun perm(other: LVec4) = Vec4(this[other.x.toInt()], this[other.y.toInt()], this[other.z.toInt()], this[other.w.toInt()])
     fun withX(value: Byte) = Vec4(value.toFloat(), y, z, w)
     fun withX(value: Short) = Vec4(value.toFloat(), y, z, w)
     fun withX(value: Int) = Vec4(value.toFloat(), y, z, w)

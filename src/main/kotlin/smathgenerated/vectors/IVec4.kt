@@ -62,12 +62,30 @@ data class IVec4(val x: Int, val y: Int, val z: Int, val w: Int) {
     operator fun rem(other: Int) = IVec4(x % other, y % other, z % other, w % other)
     operator fun unaryPlus() = this
     operator fun unaryMinus() = IVec4(-x, -y, -z, -w)
-    operator fun get(idx: Byte) = when (idx.toInt()) { 0 -> x; 1 -> y; 2 -> z; else -> w }
-    operator fun get(idx: Short) = when (idx.toInt()) { 0 -> x; 1 -> y; 2 -> z; else -> w }
-    operator fun get(idx: Int) = when (idx) { 0 -> x; 1 -> y; 2 -> z; else -> w }
-    operator fun get(idx: Long) = when (idx.toInt()) { 0 -> x; 1 -> y; 2 -> z; else -> w }
-    operator fun get(idx: Float) = when (idx.toInt()) { 0 -> x; 1 -> y; 2 -> z; else -> w }
-    operator fun get(idx: Double) = when (idx.toInt()) { 0 -> x; 1 -> y; 2 -> z; else -> w }
+    operator fun get(idx: Byte): Int {
+        require(idx in 0 until 4) { 
+            "IVec4 indexing failed. Index should be in the range of 0 to 3 (inclusive) but got ${idx}."
+        }
+        return when (idx.toInt()) { 0 -> x; 1 -> y; 2 -> z; else -> w }
+    }
+    operator fun get(idx: Short): Int {
+        require(idx in 0 until 4) { 
+            "IVec4 indexing failed. Index should be in the range of 0 to 3 (inclusive) but got ${idx}."
+        }
+        return when (idx.toInt()) { 0 -> x; 1 -> y; 2 -> z; else -> w }
+    }
+    operator fun get(idx: Int): Int {
+        require(idx in 0 until 4) { 
+            "IVec4 indexing failed. Index should be in the range of 0 to 3 (inclusive) but got ${idx}."
+        }
+        return when (idx) { 0 -> x; 1 -> y; 2 -> z; else -> w }
+    }
+    operator fun get(idx: Long): Int {
+        require(idx in 0 until 4) { 
+            "IVec4 indexing failed. Index should be in the range of 0 to 3 (inclusive) but got ${idx}."
+        }
+        return when (idx.toInt()) { 0 -> x; 1 -> y; 2 -> z; else -> w }
+    }
 
     fun toBVec4() = BVec4(x.toByte(), y.toByte(), z.toByte(), w.toByte())
     fun toSVec4() = SVec4(x.toShort(), y.toShort(), z.toShort(), w.toShort())
@@ -84,14 +102,10 @@ data class IVec4(val x: Int, val y: Int, val z: Int, val w: Int) {
     fun clamp(low: IVec4, high: IVec4) = IVec4(max(min(x, high.x), low.x), max(min(y, high.y), low.y), max(min(z, high.z), low.z), max(min(w, high.w), low.w))
     fun dot(other: IVec4) = x * other.x + y * other.y + z * other.z + w * other.w
     fun lenSq() = dot(this)
-    fun magSq() = dot(this)
     fun len() = sqrt(lenSq().toDouble())
-    fun mag() = sqrt(lenSq().toDouble())
     fun dist(other: IVec4) = (this.toDVec4() - other.toDVec4()).len()
     fun distSq(other: IVec4) = (this.toDVec4() - other.toDVec4()).lenSq()
     fun normalize() = toDVec4() / len()
-    fun norm() = toDVec4() / len()
-    fun unit() = toDVec4() / len()
     fun dir() = toDVec4() / len()
     fun elementSum() = x + y + z + w
     fun eSum() = x + y + z + w
@@ -129,6 +143,18 @@ data class IVec4(val x: Int, val y: Int, val z: Int, val w: Int) {
     fun withElement(elementIdx: Int, value: Long) = when (elementIdx) { 0 -> withX(value); 1 -> withY(value); 2 -> withZ(value); else -> withW(value) }
     fun withElement(elementIdx: Int, value: Float) = when (elementIdx) { 0 -> withX(value); 1 -> withY(value); 2 -> withZ(value); else -> withW(value) }
     fun withElement(elementIdx: Int, value: Double) = when (elementIdx) { 0 -> withX(value); 1 -> withY(value); 2 -> withZ(value); else -> withW(value) }
+    fun perm(other: BVec2) = IVec2(this[other.x.toInt()], this[other.y.toInt()])
+    fun perm(other: SVec2) = IVec2(this[other.x.toInt()], this[other.y.toInt()])
+    fun perm(other: IVec2) = IVec2(this[other.x], this[other.y])
+    fun perm(other: LVec2) = IVec2(this[other.x.toInt()], this[other.y.toInt()])
+    fun perm(other: BVec3) = IVec3(this[other.x.toInt()], this[other.y.toInt()], this[other.z.toInt()])
+    fun perm(other: SVec3) = IVec3(this[other.x.toInt()], this[other.y.toInt()], this[other.z.toInt()])
+    fun perm(other: IVec3) = IVec3(this[other.x], this[other.y], this[other.z])
+    fun perm(other: LVec3) = IVec3(this[other.x.toInt()], this[other.y.toInt()], this[other.z.toInt()])
+    fun perm(other: BVec4) = IVec4(this[other.x.toInt()], this[other.y.toInt()], this[other.z.toInt()], this[other.w.toInt()])
+    fun perm(other: SVec4) = IVec4(this[other.x.toInt()], this[other.y.toInt()], this[other.z.toInt()], this[other.w.toInt()])
+    fun perm(other: IVec4) = IVec4(this[other.x], this[other.y], this[other.z], this[other.w])
+    fun perm(other: LVec4) = IVec4(this[other.x.toInt()], this[other.y.toInt()], this[other.z.toInt()], this[other.w.toInt()])
     fun withX(value: Byte) = IVec4(value.toInt(), y, z, w)
     fun withX(value: Short) = IVec4(value.toInt(), y, z, w)
     fun withX(value: Int) = IVec4(value, y, z, w)

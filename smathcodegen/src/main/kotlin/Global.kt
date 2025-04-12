@@ -1,14 +1,37 @@
 package com.sloimay.smathcodegen
 
 val COORDS_NAME = listOf(
-    "x", "y", "z", "w"
+    "x", "y", "z", "w", "v", "u", "t", "s"
 )
 
 class VecToGen(val vecName: String, val compType: String, val dims: Int) {
     val className = vecName + dims.toString()
     val compNames = COORDS_NAME.toList().slice(0 until dims)
 }
-val VECS_TO_GEN = listOf(
+
+
+
+val VECS_TO_GEN = (cartesianProd(listOf(
+    listOf(
+        Pair("BVec", "Byte"),
+        Pair("SVec", "Short"),
+        Pair("IVec", "Int"),
+        Pair("LVec", "Long"),
+        Pair("Vec", "Float"),
+        Pair("DVec", "Double"),
+    ).map { it },
+    (2..4).map { it },
+))
+    .asSequence().map {
+        val (vecName, compType) = it[0] as Pair<String, String>
+        val dims = it[1] as Int
+        VecToGen(vecName, compType, dims)
+    }.toList())
+
+/*listOf(
+
+
+
     VecToGen("BVec", "Byte", 2),
     VecToGen("BVec", "Byte", 3),
     VecToGen("BVec", "Byte", 4),
@@ -48,14 +71,15 @@ val VECS_TO_GEN = listOf(
     VecToGen("DVec", "Double", 2),
     VecToGen("DVec", "Double", 3),
     VecToGen("DVec", "Double", 4),
+     */
 
     /*VecToGen("Vec", "Float", 3),
     VecToGen("DVec", "Double", 3),
     VecToGen("UbVec", "UByte", 3),
     VecToGen("BVec", "Byte", 3),
     VecToGen("LVec", "Long", 3),
-    VecToGen("SVec", "Short", 4),*/
-)
+    VecToGen("SVec", "Short", 4),
+)*/
 
 fun getVecsToGenWithDimsAndName(name: String, dims: Int): List<VecToGen> {
     return VECS_TO_GEN.filter { name == it.vecName && dims == it.dims }

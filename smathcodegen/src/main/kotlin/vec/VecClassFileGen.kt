@@ -10,6 +10,12 @@ import java.util.*
 private val LOCALE = Locale.UK
 
 
+/**
+ * TODO:
+ *  - Be more consistent whether I let the vector constructors cast the data back to
+ *      its component types or if I do it explicitly in the function
+ */
+
 
 class VecClassFileGen(
     vecToGen: VecToGen,
@@ -119,16 +125,18 @@ private fun VecClassFileGen.piecewiseUnaryOps() {
 
 private fun VecClassFileGen.getOperator() {
 
-    for (t in JAVA_NUM_TYPES) {
+    for (t in JAVA_NUM_TYPES.filter { !it.isFloatNum() }) {
         val convStr = getNumConvData(t.name, "Int").convStr
         vecClassRepr.addElem(
             MethodRepr(
                 listOf("operator"),
                 "get",
                 listOf(FunParam("idx", t.name)),
-                true,
+                false,
+                compType,
             ).also {
-                it.writeStr("when (idx$convStr) { ${compNames.withIndex().joinToString("; ") { (compIdx, compName) ->
+                it.writeContextAwareStr("require(idx in 0 until $dims) { \n${indentStr(4)}\"$className indexing failed. Index should be in the range of 0 to ${dims-1} (inclusive) but got ${'$'}{idx}.\"\n}\n" +
+                        "return when (idx$convStr) { ${compNames.withIndex().joinToString("; ") { (compIdx, compName) ->
                     if (compIdx != (compNames.size - 1)) {
                         "$compIdx -> $compName"
                     } else {
@@ -528,12 +536,12 @@ private fun VecClassFileGen.specialFuncs() {
     }
 
     // Length Sqrd
-    for (alias in listOf("lenSq", "magSq")) {
+    for (alias in listOf("lenSq", )) {
         vecClassRepr.addElem(MethodRepr(listOf(), alias, listOf(), true).also { it.writeStr("dot(this)") })
     }
 
     // Len
-    for (alias in listOf("len", "mag")) {
+    for (alias in listOf("len", )) {
         // TODO: Prone to overflows, figure out the better way
         val convertStr = if (typeData.isFloatNum()) ""
         else if (typeData.bits < 32) "toFloat()"
@@ -578,7 +586,7 @@ private fun VecClassFileGen.specialFuncs() {
         else if (typeData.bits < 32) ".toVec$dims()"
         else ".toDVec$dims()"
 
-        for (alias in listOf("normalize", "norm", "unit", "dir")) {
+        for (alias in listOf("normalize", /*"norm", "unit",*/ "dir")) {
             vecClassRepr.addElem(
                 MethodRepr(
                     listOf(),
@@ -657,7 +665,12 @@ private fun VecClassFileGen.specialFuncs() {
     vecClassRepr.addElem(MethodRepr(listOf(), "manhattan", listOf(FunParam("other", className)), true)
         .also {
             if (typeData.isUnsigned()) {
-                it.writeStr("(this.toIVec$dims() - other.toIVec$dims()).eSum()")
+                val vecConvertStr = if (typeData.bits <= 32) {
+                    ".toIVec$dims()"
+                } else {
+                    ".toLVec$dims()"
+                }
+                it.writeStr("(this$vecConvertStr - other$vecConvertStr).eSum()")
             } else {
                 it.writeStr("(this - other).abs().eSum()")
             }
@@ -825,6 +838,40 @@ private fun VecClassFileGen.specialFuncs() {
         )
     }
 
+    // Perm
+    run {
+        val minSize = VECS_TO_GEN.minOf { it.dims }
+        val maxSize = VECS_TO_GEN.maxOf { it.dims }
+        for (size in minSize..maxSize) {
+            val sizedPermResultVecs = getVecsToGenWithDimsAndName(vecName, size)
+            if (sizedPermResultVecs.size > 1) error("Permutation has multiple possible outputs.")
+            if (sizedPermResultVecs.size == 0) continue
+            val sizedPermResultVec = sizedPermResultVecs.first()
+
+            val javaAndSameSizeIntegerVecs = VECS_TO_GEN.filter {
+                !it.compType.compTypeIsFloat() &&
+                        (it.compType in JAVA_NUM_TYPES.map { it.name }) &&
+                        (it.dims == dims)
+            }
+            for (v in javaAndSameSizeIntegerVecs) {
+                val sizedPermIndexVecs = getVecsToGenWithDimsAndName(v.vecName, size)
+                // kind of a wrong statement but idrc lol
+                if (sizedPermIndexVecs.size > 1) error("Permutation has multiple possible input index vectors.")
+                if (sizedPermIndexVecs.size == 0) continue
+                val sizedPermIndexVec = sizedPermIndexVecs.first()
+
+                vecClassRepr.addElem(MethodRepr(listOf(), "perm", listOf(FunParam("other", sizedPermIndexVec.className)), true)
+                    .also {
+                        it.writeStr("${sizedPermResultVec.className}(${
+                            sizedPermIndexVec.compNames.joinToString {
+                                val convertStr = getNumConvData(sizedPermIndexVec.compType, "Int").convStr
+                                "this[other.${it}$convertStr]"
+                            }})")
+                    }
+                )
+            }
+        }
+    }
 
     // WithXYZW..
     for ((compIndex, compName) in compNames.withIndex()) {
