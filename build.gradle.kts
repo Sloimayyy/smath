@@ -103,7 +103,7 @@ publishing {
             }
         }
     }*/
-    /*publications {
+    publications {
         register<MavenPublication>("gpr") {
             from(components["java"])
 
@@ -128,6 +128,6 @@ publishing {
                 }
             }
         }
-    }*/
+    }
 }
 
