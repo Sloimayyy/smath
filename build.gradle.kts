@@ -12,7 +12,7 @@ java {
 }
 
 group = "com.github.sloimayyy"
-version = "1.1.0"
+version = "1.1.1"
 
 repositories {
     mavenCentral()
@@ -79,7 +79,7 @@ tasks.register<Copy>("GenerateVec5") {
 
 
 publishing {
-    publications {
+    /*publications {
         // Quick and dirty maven local for quick dev iterations
         create<MavenPublication>("maven") {
             groupId = "com.sloimay"
@@ -88,7 +88,7 @@ publishing {
 
             from(components["java"])
         }
-    }
+    }*/
 
     /*repositories {
         maven {
@@ -103,7 +103,7 @@ publishing {
             }
         }
     }*/
-    publications {
+    /*publications {
         register<MavenPublication>("gpr") {
             from(components["java"])
 
@@ -128,6 +128,6 @@ publishing {
                 }
             }
         }
-    }
+    }*/
 }
 
