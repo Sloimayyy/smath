@@ -18,6 +18,12 @@ data class BVec2(val x: Byte, val y: Byte) {
         fun new(x: Long, y: Long) = BVec2(x, y)
         fun new(x: Float, y: Float) = BVec2(x, y)
         fun new(x: Double, y: Double) = BVec2(x, y)
+        fun eye(index: Int, value: Byte = 1.toByte()): BVec2 {
+            require(index in 0 until 2) { 
+                "Index out of bounds of the range [0; 2). (Got ${index})."
+            }
+            return BVec2(if (index == 0) value else 0.toByte(), if (index == 1) value else 0.toByte())
+        }
 
         fun fromArray(array: ByteArray): BVec2 {
             require(array.size == 2) { 
@@ -92,6 +98,14 @@ data class BVec2(val x: Byte, val y: Byte) {
     fun toDVec2() = DVec2(x.toDouble(), y.toDouble())
 
     fun eq(other: BVec2) = x == other.x && y == other.y
+    fun iter(): Iterator<Byte> {
+        return object : Iterator<Byte> {
+            private var idx = 0
+            override fun hasNext() = idx < 2
+            override fun next() = this@BVec2[idx++]
+        }
+    }
+    fun seq() = iter().asSequence()
     fun abs() = BVec2(abs(x.toInt()).toByte(), abs(y.toInt()).toByte())
     fun mod(value: Byte) = BVec2(x.mod(value), y.mod(value))
     fun mod(other: BVec2) = BVec2(x.mod(other.x), y.mod(other.y))

@@ -18,6 +18,12 @@ data class IVec3(val x: Int, val y: Int, val z: Int) {
         fun new(x: Long, y: Long, z: Long) = IVec3(x, y, z)
         fun new(x: Float, y: Float, z: Float) = IVec3(x, y, z)
         fun new(x: Double, y: Double, z: Double) = IVec3(x, y, z)
+        fun eye(index: Int, value: Int = 1): IVec3 {
+            require(index in 0 until 3) { 
+                "Index out of bounds of the range [0; 3). (Got ${index})."
+            }
+            return IVec3(if (index == 0) value else 0, if (index == 1) value else 0, if (index == 2) value else 0)
+        }
 
         fun fromArray(array: IntArray): IVec3 {
             require(array.size == 3) { 
@@ -93,6 +99,14 @@ data class IVec3(val x: Int, val y: Int, val z: Int) {
     fun toDVec3() = DVec3(x.toDouble(), y.toDouble(), z.toDouble())
 
     fun eq(other: IVec3) = x == other.x && y == other.y && z == other.z
+    fun iter(): Iterator<Int> {
+        return object : Iterator<Int> {
+            private var idx = 0
+            override fun hasNext() = idx < 3
+            override fun next() = this@IVec3[idx++]
+        }
+    }
+    fun seq() = iter().asSequence()
     fun abs() = IVec3(abs(x), abs(y), abs(z))
     fun mod(value: Int) = IVec3(x.mod(value), y.mod(value), z.mod(value))
     fun mod(other: IVec3) = IVec3(x.mod(other.x), y.mod(other.y), z.mod(other.z))

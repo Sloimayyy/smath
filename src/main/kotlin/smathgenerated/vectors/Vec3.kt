@@ -18,6 +18,12 @@ data class Vec3(val x: Float, val y: Float, val z: Float) {
         fun new(x: Long, y: Long, z: Long) = Vec3(x, y, z)
         fun new(x: Float, y: Float, z: Float) = Vec3(x, y, z)
         fun new(x: Double, y: Double, z: Double) = Vec3(x, y, z)
+        fun eye(index: Int, value: Float = 1.0f): Vec3 {
+            require(index in 0 until 3) { 
+                "Index out of bounds of the range [0; 3). (Got ${index})."
+            }
+            return Vec3(if (index == 0) value else 0.0f, if (index == 1) value else 0.0f, if (index == 2) value else 0.0f)
+        }
 
         fun fromArray(array: FloatArray): Vec3 {
             require(array.size == 3) { 
@@ -95,6 +101,14 @@ data class Vec3(val x: Float, val y: Float, val z: Float) {
     fun toDVec3() = DVec3(x.toDouble(), y.toDouble(), z.toDouble())
 
     fun eq(other: Vec3) = x == other.x && y == other.y && z == other.z
+    fun iter(): Iterator<Float> {
+        return object : Iterator<Float> {
+            private var idx = 0
+            override fun hasNext() = idx < 3
+            override fun next() = this@Vec3[idx++]
+        }
+    }
+    fun seq() = iter().asSequence()
     fun abs() = Vec3(abs(x), abs(y), abs(z))
     fun mod(value: Float) = Vec3(x.mod(value), y.mod(value), z.mod(value))
     fun mod(other: Vec3) = Vec3(x.mod(other.x), y.mod(other.y), z.mod(other.z))

@@ -185,6 +185,31 @@ private fun VecClassFileGen.companionFuncs() {
         )
     }
 
+    // Eye
+    for (t in JAVA_NUM_TYPES) {
+        if (t.name != compType) continue
+
+        companionRepr.addElem(
+            MethodRepr(
+                listOf(),
+                "eye",
+                listOf(FunParam("index", "Int"), FunParam("value", t.name, "${numStrToTyped("1", t.name)}")),
+                false,
+                className,
+            ).also {
+                it.writeContextAwareStr("""
+                    require(index in 0 until $dims) { 
+                        "Index out of bounds of the range [0; $dims). (Got ${'$'}{index})."
+                    }
+                    return $className(${compNames.withIndex().joinToString { (compIdx, _) -> 
+                        val convStr = getNumConvData(t.name, compType).convStr
+                        "if (index == $compIdx) value$convStr else ${numStrToTyped("0", compType)}" 
+                    }})
+                """.trimIndent())
+            }
+        )
+    }
+
     companionRepr.writeStr("\n")
 
     // FromArray
@@ -432,6 +457,27 @@ private fun VecClassFileGen.specialFuncs() {
                     code.append("${compNames.joinToString(" && ") { "$it == other.$it" }}")
                 }
             }
+    )
+
+    // Iter
+    vecClassRepr.addElem(
+        MethodRepr(listOf(), "iter", listOf(), false, "Iterator<$compType>")
+            .also {
+                it.writeContextAwareStr("""
+                    return object : Iterator<$compType> {
+                        private var idx = 0
+                        override fun hasNext() = idx < $dims
+                        override fun next() = this@$className[idx++]
+                    }
+                """.trimIndent())
+            }
+    )
+
+    // Seq
+    vecClassRepr.addElem(
+        MethodRepr(listOf(), "seq", listOf(), true).also {
+            it.writeStr("iter().asSequence()")
+        }
     )
 
     // Abs

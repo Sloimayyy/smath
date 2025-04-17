@@ -18,6 +18,12 @@ data class LVec3(val x: Long, val y: Long, val z: Long) {
         fun new(x: Long, y: Long, z: Long) = LVec3(x, y, z)
         fun new(x: Float, y: Float, z: Float) = LVec3(x, y, z)
         fun new(x: Double, y: Double, z: Double) = LVec3(x, y, z)
+        fun eye(index: Int, value: Long = 1L): LVec3 {
+            require(index in 0 until 3) { 
+                "Index out of bounds of the range [0; 3). (Got ${index})."
+            }
+            return LVec3(if (index == 0) value else 0L, if (index == 1) value else 0L, if (index == 2) value else 0L)
+        }
 
         fun fromArray(array: LongArray): LVec3 {
             require(array.size == 3) { 
@@ -93,6 +99,14 @@ data class LVec3(val x: Long, val y: Long, val z: Long) {
     fun toDVec3() = DVec3(x.toDouble(), y.toDouble(), z.toDouble())
 
     fun eq(other: LVec3) = x == other.x && y == other.y && z == other.z
+    fun iter(): Iterator<Long> {
+        return object : Iterator<Long> {
+            private var idx = 0
+            override fun hasNext() = idx < 3
+            override fun next() = this@LVec3[idx++]
+        }
+    }
+    fun seq() = iter().asSequence()
     fun abs() = LVec3(abs(x), abs(y), abs(z))
     fun mod(value: Long) = LVec3(x.mod(value), y.mod(value), z.mod(value))
     fun mod(other: LVec3) = LVec3(x.mod(other.x), y.mod(other.y), z.mod(other.z))

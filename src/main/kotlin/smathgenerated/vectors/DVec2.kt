@@ -18,6 +18,12 @@ data class DVec2(val x: Double, val y: Double) {
         fun new(x: Long, y: Long) = DVec2(x, y)
         fun new(x: Float, y: Float) = DVec2(x, y)
         fun new(x: Double, y: Double) = DVec2(x, y)
+        fun eye(index: Int, value: Double = 1.0): DVec2 {
+            require(index in 0 until 2) { 
+                "Index out of bounds of the range [0; 2). (Got ${index})."
+            }
+            return DVec2(if (index == 0) value else 0.0, if (index == 1) value else 0.0)
+        }
 
         fun fromArray(array: DoubleArray): DVec2 {
             require(array.size == 2) { 
@@ -94,6 +100,14 @@ data class DVec2(val x: Double, val y: Double) {
     fun toVec2() = Vec2(x.toFloat(), y.toFloat())
 
     fun eq(other: DVec2) = x == other.x && y == other.y
+    fun iter(): Iterator<Double> {
+        return object : Iterator<Double> {
+            private var idx = 0
+            override fun hasNext() = idx < 2
+            override fun next() = this@DVec2[idx++]
+        }
+    }
+    fun seq() = iter().asSequence()
     fun abs() = DVec2(abs(x), abs(y))
     fun mod(value: Double) = DVec2(x.mod(value), y.mod(value))
     fun mod(other: DVec2) = DVec2(x.mod(other.x), y.mod(other.y))

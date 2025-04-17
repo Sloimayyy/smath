@@ -18,6 +18,12 @@ data class IVec2(val x: Int, val y: Int) {
         fun new(x: Long, y: Long) = IVec2(x, y)
         fun new(x: Float, y: Float) = IVec2(x, y)
         fun new(x: Double, y: Double) = IVec2(x, y)
+        fun eye(index: Int, value: Int = 1): IVec2 {
+            require(index in 0 until 2) { 
+                "Index out of bounds of the range [0; 2). (Got ${index})."
+            }
+            return IVec2(if (index == 0) value else 0, if (index == 1) value else 0)
+        }
 
         fun fromArray(array: IntArray): IVec2 {
             require(array.size == 2) { 
@@ -92,6 +98,14 @@ data class IVec2(val x: Int, val y: Int) {
     fun toDVec2() = DVec2(x.toDouble(), y.toDouble())
 
     fun eq(other: IVec2) = x == other.x && y == other.y
+    fun iter(): Iterator<Int> {
+        return object : Iterator<Int> {
+            private var idx = 0
+            override fun hasNext() = idx < 2
+            override fun next() = this@IVec2[idx++]
+        }
+    }
+    fun seq() = iter().asSequence()
     fun abs() = IVec2(abs(x), abs(y))
     fun mod(value: Int) = IVec2(x.mod(value), y.mod(value))
     fun mod(other: IVec2) = IVec2(x.mod(other.x), y.mod(other.y))

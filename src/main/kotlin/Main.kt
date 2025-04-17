@@ -13,6 +13,9 @@ fun main() {
 
 
 
+    Vec3(0, 2, 3).iter().forEach { println(it) }
+
+
     //println(Vec5(0f, 2f, 4f, 3f, 2f))
 
     println(Vec4(0f, 1f, 2f, 3f))

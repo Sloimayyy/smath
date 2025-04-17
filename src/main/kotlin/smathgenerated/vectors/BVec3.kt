@@ -18,6 +18,12 @@ data class BVec3(val x: Byte, val y: Byte, val z: Byte) {
         fun new(x: Long, y: Long, z: Long) = BVec3(x, y, z)
         fun new(x: Float, y: Float, z: Float) = BVec3(x, y, z)
         fun new(x: Double, y: Double, z: Double) = BVec3(x, y, z)
+        fun eye(index: Int, value: Byte = 1.toByte()): BVec3 {
+            require(index in 0 until 3) { 
+                "Index out of bounds of the range [0; 3). (Got ${index})."
+            }
+            return BVec3(if (index == 0) value else 0.toByte(), if (index == 1) value else 0.toByte(), if (index == 2) value else 0.toByte())
+        }
 
         fun fromArray(array: ByteArray): BVec3 {
             require(array.size == 3) { 
@@ -93,6 +99,14 @@ data class BVec3(val x: Byte, val y: Byte, val z: Byte) {
     fun toDVec3() = DVec3(x.toDouble(), y.toDouble(), z.toDouble())
 
     fun eq(other: BVec3) = x == other.x && y == other.y && z == other.z
+    fun iter(): Iterator<Byte> {
+        return object : Iterator<Byte> {
+            private var idx = 0
+            override fun hasNext() = idx < 3
+            override fun next() = this@BVec3[idx++]
+        }
+    }
+    fun seq() = iter().asSequence()
     fun abs() = BVec3(abs(x.toInt()).toByte(), abs(y.toInt()).toByte(), abs(z.toInt()).toByte())
     fun mod(value: Byte) = BVec3(x.mod(value), y.mod(value), z.mod(value))
     fun mod(other: BVec3) = BVec3(x.mod(other.x), y.mod(other.y), z.mod(other.z))

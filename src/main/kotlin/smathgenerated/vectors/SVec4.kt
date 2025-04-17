@@ -18,6 +18,12 @@ data class SVec4(val x: Short, val y: Short, val z: Short, val w: Short) {
         fun new(x: Long, y: Long, z: Long, w: Long) = SVec4(x, y, z, w)
         fun new(x: Float, y: Float, z: Float, w: Float) = SVec4(x, y, z, w)
         fun new(x: Double, y: Double, z: Double, w: Double) = SVec4(x, y, z, w)
+        fun eye(index: Int, value: Short = 1.toShort()): SVec4 {
+            require(index in 0 until 4) { 
+                "Index out of bounds of the range [0; 4). (Got ${index})."
+            }
+            return SVec4(if (index == 0) value else 0.toShort(), if (index == 1) value else 0.toShort(), if (index == 2) value else 0.toShort(), if (index == 3) value else 0.toShort())
+        }
 
         fun fromArray(array: ShortArray): SVec4 {
             require(array.size == 4) { 
@@ -94,6 +100,14 @@ data class SVec4(val x: Short, val y: Short, val z: Short, val w: Short) {
     fun toDVec4() = DVec4(x.toDouble(), y.toDouble(), z.toDouble(), w.toDouble())
 
     fun eq(other: SVec4) = x == other.x && y == other.y && z == other.z && w == other.w
+    fun iter(): Iterator<Short> {
+        return object : Iterator<Short> {
+            private var idx = 0
+            override fun hasNext() = idx < 4
+            override fun next() = this@SVec4[idx++]
+        }
+    }
+    fun seq() = iter().asSequence()
     fun abs() = SVec4(abs(x.toInt()).toShort(), abs(y.toInt()).toShort(), abs(z.toInt()).toShort(), abs(w.toInt()).toShort())
     fun mod(value: Short) = SVec4(x.mod(value), y.mod(value), z.mod(value), w.mod(value))
     fun mod(other: SVec4) = SVec4(x.mod(other.x), y.mod(other.y), z.mod(other.z), w.mod(other.w))

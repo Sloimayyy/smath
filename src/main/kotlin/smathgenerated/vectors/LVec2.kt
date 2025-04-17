@@ -18,6 +18,12 @@ data class LVec2(val x: Long, val y: Long) {
         fun new(x: Long, y: Long) = LVec2(x, y)
         fun new(x: Float, y: Float) = LVec2(x, y)
         fun new(x: Double, y: Double) = LVec2(x, y)
+        fun eye(index: Int, value: Long = 1L): LVec2 {
+            require(index in 0 until 2) { 
+                "Index out of bounds of the range [0; 2). (Got ${index})."
+            }
+            return LVec2(if (index == 0) value else 0L, if (index == 1) value else 0L)
+        }
 
         fun fromArray(array: LongArray): LVec2 {
             require(array.size == 2) { 
@@ -92,6 +98,14 @@ data class LVec2(val x: Long, val y: Long) {
     fun toDVec2() = DVec2(x.toDouble(), y.toDouble())
 
     fun eq(other: LVec2) = x == other.x && y == other.y
+    fun iter(): Iterator<Long> {
+        return object : Iterator<Long> {
+            private var idx = 0
+            override fun hasNext() = idx < 2
+            override fun next() = this@LVec2[idx++]
+        }
+    }
+    fun seq() = iter().asSequence()
     fun abs() = LVec2(abs(x), abs(y))
     fun mod(value: Long) = LVec2(x.mod(value), y.mod(value))
     fun mod(other: LVec2) = LVec2(x.mod(other.x), y.mod(other.y))

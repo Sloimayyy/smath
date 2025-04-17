@@ -18,6 +18,12 @@ data class LVec4(val x: Long, val y: Long, val z: Long, val w: Long) {
         fun new(x: Long, y: Long, z: Long, w: Long) = LVec4(x, y, z, w)
         fun new(x: Float, y: Float, z: Float, w: Float) = LVec4(x, y, z, w)
         fun new(x: Double, y: Double, z: Double, w: Double) = LVec4(x, y, z, w)
+        fun eye(index: Int, value: Long = 1L): LVec4 {
+            require(index in 0 until 4) { 
+                "Index out of bounds of the range [0; 4). (Got ${index})."
+            }
+            return LVec4(if (index == 0) value else 0L, if (index == 1) value else 0L, if (index == 2) value else 0L, if (index == 3) value else 0L)
+        }
 
         fun fromArray(array: LongArray): LVec4 {
             require(array.size == 4) { 
@@ -94,6 +100,14 @@ data class LVec4(val x: Long, val y: Long, val z: Long, val w: Long) {
     fun toDVec4() = DVec4(x.toDouble(), y.toDouble(), z.toDouble(), w.toDouble())
 
     fun eq(other: LVec4) = x == other.x && y == other.y && z == other.z && w == other.w
+    fun iter(): Iterator<Long> {
+        return object : Iterator<Long> {
+            private var idx = 0
+            override fun hasNext() = idx < 4
+            override fun next() = this@LVec4[idx++]
+        }
+    }
+    fun seq() = iter().asSequence()
     fun abs() = LVec4(abs(x), abs(y), abs(z), abs(w))
     fun mod(value: Long) = LVec4(x.mod(value), y.mod(value), z.mod(value), w.mod(value))
     fun mod(other: LVec4) = LVec4(x.mod(other.x), y.mod(other.y), z.mod(other.z), w.mod(other.w))

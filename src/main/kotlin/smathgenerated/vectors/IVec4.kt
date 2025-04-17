@@ -18,6 +18,12 @@ data class IVec4(val x: Int, val y: Int, val z: Int, val w: Int) {
         fun new(x: Long, y: Long, z: Long, w: Long) = IVec4(x, y, z, w)
         fun new(x: Float, y: Float, z: Float, w: Float) = IVec4(x, y, z, w)
         fun new(x: Double, y: Double, z: Double, w: Double) = IVec4(x, y, z, w)
+        fun eye(index: Int, value: Int = 1): IVec4 {
+            require(index in 0 until 4) { 
+                "Index out of bounds of the range [0; 4). (Got ${index})."
+            }
+            return IVec4(if (index == 0) value else 0, if (index == 1) value else 0, if (index == 2) value else 0, if (index == 3) value else 0)
+        }
 
         fun fromArray(array: IntArray): IVec4 {
             require(array.size == 4) { 
@@ -94,6 +100,14 @@ data class IVec4(val x: Int, val y: Int, val z: Int, val w: Int) {
     fun toDVec4() = DVec4(x.toDouble(), y.toDouble(), z.toDouble(), w.toDouble())
 
     fun eq(other: IVec4) = x == other.x && y == other.y && z == other.z && w == other.w
+    fun iter(): Iterator<Int> {
+        return object : Iterator<Int> {
+            private var idx = 0
+            override fun hasNext() = idx < 4
+            override fun next() = this@IVec4[idx++]
+        }
+    }
+    fun seq() = iter().asSequence()
     fun abs() = IVec4(abs(x), abs(y), abs(z), abs(w))
     fun mod(value: Int) = IVec4(x.mod(value), y.mod(value), z.mod(value), w.mod(value))
     fun mod(other: IVec4) = IVec4(x.mod(other.x), y.mod(other.y), z.mod(other.z), w.mod(other.w))

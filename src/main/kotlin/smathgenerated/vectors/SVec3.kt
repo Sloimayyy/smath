@@ -18,6 +18,12 @@ data class SVec3(val x: Short, val y: Short, val z: Short) {
         fun new(x: Long, y: Long, z: Long) = SVec3(x, y, z)
         fun new(x: Float, y: Float, z: Float) = SVec3(x, y, z)
         fun new(x: Double, y: Double, z: Double) = SVec3(x, y, z)
+        fun eye(index: Int, value: Short = 1.toShort()): SVec3 {
+            require(index in 0 until 3) { 
+                "Index out of bounds of the range [0; 3). (Got ${index})."
+            }
+            return SVec3(if (index == 0) value else 0.toShort(), if (index == 1) value else 0.toShort(), if (index == 2) value else 0.toShort())
+        }
 
         fun fromArray(array: ShortArray): SVec3 {
             require(array.size == 3) { 
@@ -93,6 +99,14 @@ data class SVec3(val x: Short, val y: Short, val z: Short) {
     fun toDVec3() = DVec3(x.toDouble(), y.toDouble(), z.toDouble())
 
     fun eq(other: SVec3) = x == other.x && y == other.y && z == other.z
+    fun iter(): Iterator<Short> {
+        return object : Iterator<Short> {
+            private var idx = 0
+            override fun hasNext() = idx < 3
+            override fun next() = this@SVec3[idx++]
+        }
+    }
+    fun seq() = iter().asSequence()
     fun abs() = SVec3(abs(x.toInt()).toShort(), abs(y.toInt()).toShort(), abs(z.toInt()).toShort())
     fun mod(value: Short) = SVec3(x.mod(value), y.mod(value), z.mod(value))
     fun mod(other: SVec3) = SVec3(x.mod(other.x), y.mod(other.y), z.mod(other.z))

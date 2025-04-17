@@ -18,6 +18,12 @@ data class DVec4(val x: Double, val y: Double, val z: Double, val w: Double) {
         fun new(x: Long, y: Long, z: Long, w: Long) = DVec4(x, y, z, w)
         fun new(x: Float, y: Float, z: Float, w: Float) = DVec4(x, y, z, w)
         fun new(x: Double, y: Double, z: Double, w: Double) = DVec4(x, y, z, w)
+        fun eye(index: Int, value: Double = 1.0): DVec4 {
+            require(index in 0 until 4) { 
+                "Index out of bounds of the range [0; 4). (Got ${index})."
+            }
+            return DVec4(if (index == 0) value else 0.0, if (index == 1) value else 0.0, if (index == 2) value else 0.0, if (index == 3) value else 0.0)
+        }
 
         fun fromArray(array: DoubleArray): DVec4 {
             require(array.size == 4) { 
@@ -96,6 +102,14 @@ data class DVec4(val x: Double, val y: Double, val z: Double, val w: Double) {
     fun toVec4() = Vec4(x.toFloat(), y.toFloat(), z.toFloat(), w.toFloat())
 
     fun eq(other: DVec4) = x == other.x && y == other.y && z == other.z && w == other.w
+    fun iter(): Iterator<Double> {
+        return object : Iterator<Double> {
+            private var idx = 0
+            override fun hasNext() = idx < 4
+            override fun next() = this@DVec4[idx++]
+        }
+    }
+    fun seq() = iter().asSequence()
     fun abs() = DVec4(abs(x), abs(y), abs(z), abs(w))
     fun mod(value: Double) = DVec4(x.mod(value), y.mod(value), z.mod(value), w.mod(value))
     fun mod(other: DVec4) = DVec4(x.mod(other.x), y.mod(other.y), z.mod(other.z), w.mod(other.w))

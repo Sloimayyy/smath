@@ -18,6 +18,12 @@ data class SVec2(val x: Short, val y: Short) {
         fun new(x: Long, y: Long) = SVec2(x, y)
         fun new(x: Float, y: Float) = SVec2(x, y)
         fun new(x: Double, y: Double) = SVec2(x, y)
+        fun eye(index: Int, value: Short = 1.toShort()): SVec2 {
+            require(index in 0 until 2) { 
+                "Index out of bounds of the range [0; 2). (Got ${index})."
+            }
+            return SVec2(if (index == 0) value else 0.toShort(), if (index == 1) value else 0.toShort())
+        }
 
         fun fromArray(array: ShortArray): SVec2 {
             require(array.size == 2) { 
@@ -92,6 +98,14 @@ data class SVec2(val x: Short, val y: Short) {
     fun toDVec2() = DVec2(x.toDouble(), y.toDouble())
 
     fun eq(other: SVec2) = x == other.x && y == other.y
+    fun iter(): Iterator<Short> {
+        return object : Iterator<Short> {
+            private var idx = 0
+            override fun hasNext() = idx < 2
+            override fun next() = this@SVec2[idx++]
+        }
+    }
+    fun seq() = iter().asSequence()
     fun abs() = SVec2(abs(x.toInt()).toShort(), abs(y.toInt()).toShort())
     fun mod(value: Short) = SVec2(x.mod(value), y.mod(value))
     fun mod(other: SVec2) = SVec2(x.mod(other.x), y.mod(other.y))

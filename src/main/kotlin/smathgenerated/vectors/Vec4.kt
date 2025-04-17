@@ -18,6 +18,12 @@ data class Vec4(val x: Float, val y: Float, val z: Float, val w: Float) {
         fun new(x: Long, y: Long, z: Long, w: Long) = Vec4(x, y, z, w)
         fun new(x: Float, y: Float, z: Float, w: Float) = Vec4(x, y, z, w)
         fun new(x: Double, y: Double, z: Double, w: Double) = Vec4(x, y, z, w)
+        fun eye(index: Int, value: Float = 1.0f): Vec4 {
+            require(index in 0 until 4) { 
+                "Index out of bounds of the range [0; 4). (Got ${index})."
+            }
+            return Vec4(if (index == 0) value else 0.0f, if (index == 1) value else 0.0f, if (index == 2) value else 0.0f, if (index == 3) value else 0.0f)
+        }
 
         fun fromArray(array: FloatArray): Vec4 {
             require(array.size == 4) { 
@@ -96,6 +102,14 @@ data class Vec4(val x: Float, val y: Float, val z: Float, val w: Float) {
     fun toDVec4() = DVec4(x.toDouble(), y.toDouble(), z.toDouble(), w.toDouble())
 
     fun eq(other: Vec4) = x == other.x && y == other.y && z == other.z && w == other.w
+    fun iter(): Iterator<Float> {
+        return object : Iterator<Float> {
+            private var idx = 0
+            override fun hasNext() = idx < 4
+            override fun next() = this@Vec4[idx++]
+        }
+    }
+    fun seq() = iter().asSequence()
     fun abs() = Vec4(abs(x), abs(y), abs(z), abs(w))
     fun mod(value: Float) = Vec4(x.mod(value), y.mod(value), z.mod(value), w.mod(value))
     fun mod(other: Vec4) = Vec4(x.mod(other.x), y.mod(other.y), z.mod(other.z), w.mod(other.w))

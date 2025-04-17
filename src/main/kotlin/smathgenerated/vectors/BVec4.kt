@@ -18,6 +18,12 @@ data class BVec4(val x: Byte, val y: Byte, val z: Byte, val w: Byte) {
         fun new(x: Long, y: Long, z: Long, w: Long) = BVec4(x, y, z, w)
         fun new(x: Float, y: Float, z: Float, w: Float) = BVec4(x, y, z, w)
         fun new(x: Double, y: Double, z: Double, w: Double) = BVec4(x, y, z, w)
+        fun eye(index: Int, value: Byte = 1.toByte()): BVec4 {
+            require(index in 0 until 4) { 
+                "Index out of bounds of the range [0; 4). (Got ${index})."
+            }
+            return BVec4(if (index == 0) value else 0.toByte(), if (index == 1) value else 0.toByte(), if (index == 2) value else 0.toByte(), if (index == 3) value else 0.toByte())
+        }
 
         fun fromArray(array: ByteArray): BVec4 {
             require(array.size == 4) { 
@@ -94,6 +100,14 @@ data class BVec4(val x: Byte, val y: Byte, val z: Byte, val w: Byte) {
     fun toDVec4() = DVec4(x.toDouble(), y.toDouble(), z.toDouble(), w.toDouble())
 
     fun eq(other: BVec4) = x == other.x && y == other.y && z == other.z && w == other.w
+    fun iter(): Iterator<Byte> {
+        return object : Iterator<Byte> {
+            private var idx = 0
+            override fun hasNext() = idx < 4
+            override fun next() = this@BVec4[idx++]
+        }
+    }
+    fun seq() = iter().asSequence()
     fun abs() = BVec4(abs(x.toInt()).toByte(), abs(y.toInt()).toByte(), abs(z.toInt()).toByte(), abs(w.toInt()).toByte())
     fun mod(value: Byte) = BVec4(x.mod(value), y.mod(value), z.mod(value), w.mod(value))
     fun mod(other: BVec4) = BVec4(x.mod(other.x), y.mod(other.y), z.mod(other.z), w.mod(other.w))
