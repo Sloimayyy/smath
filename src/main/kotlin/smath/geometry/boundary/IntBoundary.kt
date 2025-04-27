@@ -150,4 +150,4 @@ class IntBoundary private constructor(
 }
 
 
-internal infix fun IVec3.onBorderOf(boundary: IntBoundary) = boundary.posOnBorder(this)
+

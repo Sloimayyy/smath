@@ -119,10 +119,10 @@ data class IVec2(val x: Int, val y: Int) {
     fun distSq(other: IVec2) = (this.toDVec2() - other.toDVec2()).lenSq()
     fun normalize() = toDVec2() / len()
     fun dir() = toDVec2() / len()
-    fun elementSum() = x + y
-    fun eSum() = x + y
-    fun elementProd() = x * y
-    fun eProd() = x * y
+    fun elementSum() = (x + y)
+    fun eSum() = (x + y)
+    fun elementProd() = (x * y)
+    fun eProd() = (x * y)
     fun minElement() = min(x, y)
     fun eMin() = min(x, y)
     fun maxElement() = max(x, y)

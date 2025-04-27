@@ -15,4 +15,4 @@ fun Float.abs() = kotlin.math.abs(this)
 fun Double.abs() = kotlin.math.abs(this)
 
 fun Float.lerp(other: Float, t: Float) = this*(1f-t) + other*t
-fun Double.lerp(other: Float, t: Float) = this*(1f-t) + other*t
+fun Double.lerp(other: Double, t: Double) = this*(1f-t) + other*t

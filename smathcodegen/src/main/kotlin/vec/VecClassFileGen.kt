@@ -652,18 +652,36 @@ private fun VecClassFileGen.specialFuncs() {
 
     // ElementSum
     for (alias in listOf("elementSum", "eSum")) {
+        val convStr = getNumConvData(typeData.name, if (typeData.isUnsigned()) "UInt" else "Int").convStr
+        val invConvStr = getNumConvData(if (typeData.isUnsigned()) "UInt" else "Int", typeData.name).convStr
+        val applyConvs = typeData.needToBumpToInt()
+
+        val args = compNames.map { maybeApplyMemberFunc(it, convStr, false, applyConvs) }
+
         vecClassRepr.addElem(
             MethodRepr(listOf(), alias, listOf(), true).also {
-                it.writeStr("${compNames.joinToString(" + ")}")
+                it.writeStr("${maybeApplyMemberFunc(
+                    combineArgsWithCommutativeBiInfix(args, "+"),
+                    invConvStr, false, applyConvs
+                )}")
             }
         )
     }
 
     // ElementProd
     for (alias in listOf("elementProd", "eProd")) {
+        val convStr = getNumConvData(typeData.name, if (typeData.isUnsigned()) "UInt" else "Int").convStr
+        val invConvStr = getNumConvData(if (typeData.isUnsigned()) "UInt" else "Int", typeData.name).convStr
+        val applyConvs = typeData.needToBumpToInt()
+
+        val args = compNames.map { maybeApplyMemberFunc(it, convStr, false, applyConvs) }
+
         vecClassRepr.addElem(
             MethodRepr(listOf(), alias, listOf(), true).also {
-                it.writeStr("${compNames.joinToString(" * ")}")
+                it.writeStr("${maybeApplyMemberFunc(
+                    combineArgsWithCommutativeBiInfix(args, "*"),
+                    invConvStr, false, applyConvs
+                )}")
             }
         )
     }

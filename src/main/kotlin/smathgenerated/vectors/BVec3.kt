@@ -120,10 +120,10 @@ data class BVec3(val x: Byte, val y: Byte, val z: Byte) {
     fun distSq(other: BVec3) = (this.toVec3() - other.toVec3()).lenSq()
     fun normalize() = toVec3() / len()
     fun dir() = toVec3() / len()
-    fun elementSum() = x + y + z
-    fun eSum() = x + y + z
-    fun elementProd() = x * y * z
-    fun eProd() = x * y * z
+    fun elementSum() = ((x.toInt() + y.toInt()) + z.toInt()).toByte()
+    fun eSum() = ((x.toInt() + y.toInt()) + z.toInt()).toByte()
+    fun elementProd() = ((x.toInt() * y.toInt()) * z.toInt()).toByte()
+    fun eProd() = ((x.toInt() * y.toInt()) * z.toInt()).toByte()
     fun minElement() = min(min(x.toInt(), y.toInt()), z.toInt()).toByte()
     fun eMin() = min(min(x.toInt(), y.toInt()), z.toInt()).toByte()
     fun maxElement() = max(max(x.toInt(), y.toInt()), z.toInt()).toByte()

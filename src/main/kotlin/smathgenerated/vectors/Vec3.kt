@@ -122,10 +122,10 @@ data class Vec3(val x: Float, val y: Float, val z: Float) {
     fun distSq(other: Vec3) = (this - other).lenSq()
     fun normalize() = this / len()
     fun dir() = this / len()
-    fun elementSum() = x + y + z
-    fun eSum() = x + y + z
-    fun elementProd() = x * y * z
-    fun eProd() = x * y * z
+    fun elementSum() = ((x + y) + z)
+    fun eSum() = ((x + y) + z)
+    fun elementProd() = ((x * y) * z)
+    fun eProd() = ((x * y) * z)
     fun minElement() = min(min(x, y), z)
     fun eMin() = min(min(x, y), z)
     fun maxElement() = max(max(x, y), z)

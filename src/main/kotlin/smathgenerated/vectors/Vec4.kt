@@ -123,10 +123,10 @@ data class Vec4(val x: Float, val y: Float, val z: Float, val w: Float) {
     fun distSq(other: Vec4) = (this - other).lenSq()
     fun normalize() = this / len()
     fun dir() = this / len()
-    fun elementSum() = x + y + z + w
-    fun eSum() = x + y + z + w
-    fun elementProd() = x * y * z * w
-    fun eProd() = x * y * z * w
+    fun elementSum() = ((x + y) + (z + w))
+    fun eSum() = ((x + y) + (z + w))
+    fun elementProd() = ((x * y) * (z * w))
+    fun eProd() = ((x * y) * (z * w))
     fun minElement() = min(min(x, y), min(z, w))
     fun eMin() = min(min(x, y), min(z, w))
     fun maxElement() = max(max(x, y), max(z, w))

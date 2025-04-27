@@ -8,10 +8,34 @@ import kotlin.time.ExperimentalTime
 import kotlin.time.TimeSource
 
 
+
 @OptIn(ExperimentalTime::class)
 fun main() {
 
 
+
+    val startTime = TimeSource.Monotonic.markNow()
+
+
+    var a = QVec3(1f, 2f, 3f)
+    for (i in 0 until 2_000_000_000) {
+        a *= QVec3(3f, 7f, 5f)
+    }
+
+    //val l = LongArray(10) { QVec3(1f, 2f, 3f).packed }
+
+    println(a)
+
+
+
+    println("in ${startTime.elapsedNow()}")
+
+
+    
+    
+    
+    
+    return
 
     Vec3(0, 2, 3).iter().forEach { println(it) }
 

@@ -121,10 +121,10 @@ data class DVec2(val x: Double, val y: Double) {
     fun distSq(other: DVec2) = (this - other).lenSq()
     fun normalize() = this / len()
     fun dir() = this / len()
-    fun elementSum() = x + y
-    fun eSum() = x + y
-    fun elementProd() = x * y
-    fun eProd() = x * y
+    fun elementSum() = (x + y)
+    fun eSum() = (x + y)
+    fun elementProd() = (x * y)
+    fun eProd() = (x * y)
     fun minElement() = min(x, y)
     fun eMin() = min(x, y)
     fun maxElement() = max(x, y)

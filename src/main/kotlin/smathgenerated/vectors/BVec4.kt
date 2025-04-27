@@ -121,10 +121,10 @@ data class BVec4(val x: Byte, val y: Byte, val z: Byte, val w: Byte) {
     fun distSq(other: BVec4) = (this.toVec4() - other.toVec4()).lenSq()
     fun normalize() = toVec4() / len()
     fun dir() = toVec4() / len()
-    fun elementSum() = x + y + z + w
-    fun eSum() = x + y + z + w
-    fun elementProd() = x * y * z * w
-    fun eProd() = x * y * z * w
+    fun elementSum() = ((x.toInt() + y.toInt()) + (z.toInt() + w.toInt())).toByte()
+    fun eSum() = ((x.toInt() + y.toInt()) + (z.toInt() + w.toInt())).toByte()
+    fun elementProd() = ((x.toInt() * y.toInt()) * (z.toInt() * w.toInt())).toByte()
+    fun eProd() = ((x.toInt() * y.toInt()) * (z.toInt() * w.toInt())).toByte()
     fun minElement() = min(min(x.toInt(), y.toInt()), min(z.toInt(), w.toInt())).toByte()
     fun eMin() = min(min(x.toInt(), y.toInt()), min(z.toInt(), w.toInt())).toByte()
     fun maxElement() = max(max(x.toInt(), y.toInt()), max(z.toInt(), w.toInt())).toByte()

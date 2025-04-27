@@ -140,3 +140,35 @@ fun combineArgsWithCommutativeBiFunc(args: List<String>, biFuncName: String): St
     return recur(0, startLayer + 1, layerIdxOffset)
 }
 
+fun combineArgsWithCommutativeBiInfix(args: List<String>, infixStr: String): String {
+    val argCount = args.size
+    require(argCount >= 2) { "Requires arg count to be greater or equal to 2 but got $argCount" }
+
+    val startLayer = highestSetBit(argCount - 1)
+    val layerIdxOffset = 1 shl startLayer
+
+    fun recur(argIdx: Int, layer: Int, layerIdxOffset: Int): String {
+        if (layer == 0) {
+            return args[argIdx]
+        }
+
+        val left = recur(argIdx, layer - 1, layerIdxOffset / 2)
+
+        val rightIdx = argIdx + layerIdxOffset
+        val right = if (rightIdx < args.size) {
+            recur(rightIdx, layer - 1, layerIdxOffset / 2)
+        } else {
+            null
+        }
+
+        if (right != null) {
+            return "($left $infixStr $right)"
+        } else {
+            return left
+        }
+    }
+
+
+    return recur(0, startLayer + 1, layerIdxOffset)
+}
+

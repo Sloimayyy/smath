@@ -119,10 +119,10 @@ data class SVec2(val x: Short, val y: Short) {
     fun distSq(other: SVec2) = (this.toVec2() - other.toVec2()).lenSq()
     fun normalize() = toVec2() / len()
     fun dir() = toVec2() / len()
-    fun elementSum() = x + y
-    fun eSum() = x + y
-    fun elementProd() = x * y
-    fun eProd() = x * y
+    fun elementSum() = (x.toInt() + y.toInt()).toShort()
+    fun eSum() = (x.toInt() + y.toInt()).toShort()
+    fun elementProd() = (x.toInt() * y.toInt()).toShort()
+    fun eProd() = (x.toInt() * y.toInt()).toShort()
     fun minElement() = min(x.toInt(), y.toInt()).toShort()
     fun eMin() = min(x.toInt(), y.toInt()).toShort()
     fun maxElement() = max(x.toInt(), y.toInt()).toShort()

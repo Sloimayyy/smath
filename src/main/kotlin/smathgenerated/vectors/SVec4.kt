@@ -121,10 +121,10 @@ data class SVec4(val x: Short, val y: Short, val z: Short, val w: Short) {
     fun distSq(other: SVec4) = (this.toVec4() - other.toVec4()).lenSq()
     fun normalize() = toVec4() / len()
     fun dir() = toVec4() / len()
-    fun elementSum() = x + y + z + w
-    fun eSum() = x + y + z + w
-    fun elementProd() = x * y * z * w
-    fun eProd() = x * y * z * w
+    fun elementSum() = ((x.toInt() + y.toInt()) + (z.toInt() + w.toInt())).toShort()
+    fun eSum() = ((x.toInt() + y.toInt()) + (z.toInt() + w.toInt())).toShort()
+    fun elementProd() = ((x.toInt() * y.toInt()) * (z.toInt() * w.toInt())).toShort()
+    fun eProd() = ((x.toInt() * y.toInt()) * (z.toInt() * w.toInt())).toShort()
     fun minElement() = min(min(x.toInt(), y.toInt()), min(z.toInt(), w.toInt())).toShort()
     fun eMin() = min(min(x.toInt(), y.toInt()), min(z.toInt(), w.toInt())).toShort()
     fun maxElement() = max(max(x.toInt(), y.toInt()), max(z.toInt(), w.toInt())).toShort()
