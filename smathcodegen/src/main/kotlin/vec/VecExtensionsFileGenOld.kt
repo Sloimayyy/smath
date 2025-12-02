@@ -203,7 +203,7 @@ private fun VecExtensionsFileGenOld.specialFuncs() {
     // Dist
     run {
         for ((mainFuncName, lenFuncName) in listOf(Pair("dist", "len"), Pair("distSq", "lenSq"))) {
-            val convertStr = if (typeData.isFloatNum()) ""
+            val convertStr = if (typeData.isFloat()) ""
             else if (typeData.bits < 32) ".toVec3()"
             else ".toDVec3()"
 
@@ -215,7 +215,7 @@ private fun VecExtensionsFileGenOld.specialFuncs() {
     }
 
 
-    if (typeData.isFloatNum()) {
+    if (typeData.isFloat()) {
         specialFloatFuncs()
     }
 

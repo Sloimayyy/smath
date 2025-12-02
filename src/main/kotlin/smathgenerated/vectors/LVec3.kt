@@ -111,7 +111,9 @@ data class LVec3(val x: Long, val y: Long, val z: Long) {
     fun mod(value: Long) = LVec3(x.mod(value), y.mod(value), z.mod(value))
     fun mod(other: LVec3) = LVec3(x.mod(other.x), y.mod(other.y), z.mod(other.z))
     fun min(other: LVec3) = LVec3(min(x, other.x), min(y, other.y), min(z, other.z))
+    fun min(other: Long) = LVec3(min(x, other), min(y, other), min(z, other))
     fun max(other: LVec3) = LVec3(max(x, other.x), max(y, other.y), max(z, other.z))
+    fun max(other: Long) = LVec3(max(x, other), max(y, other), max(z, other))
     fun clamp(low: LVec3, high: LVec3) = LVec3(max(min(x, high.x), low.x), max(min(y, high.y), low.y), max(min(z, high.z), low.z))
     fun dot(other: LVec3) = x * other.x + y * other.y + z * other.z
     fun lenSq() = dot(this)

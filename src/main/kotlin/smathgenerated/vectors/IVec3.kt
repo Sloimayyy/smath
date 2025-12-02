@@ -111,7 +111,9 @@ data class IVec3(val x: Int, val y: Int, val z: Int) {
     fun mod(value: Int) = IVec3(x.mod(value), y.mod(value), z.mod(value))
     fun mod(other: IVec3) = IVec3(x.mod(other.x), y.mod(other.y), z.mod(other.z))
     fun min(other: IVec3) = IVec3(min(x, other.x), min(y, other.y), min(z, other.z))
+    fun min(other: Int) = IVec3(min(x, other), min(y, other), min(z, other))
     fun max(other: IVec3) = IVec3(max(x, other.x), max(y, other.y), max(z, other.z))
+    fun max(other: Int) = IVec3(max(x, other), max(y, other), max(z, other))
     fun clamp(low: IVec3, high: IVec3) = IVec3(max(min(x, high.x), low.x), max(min(y, high.y), low.y), max(min(z, high.z), low.z))
     fun dot(other: IVec3) = x * other.x + y * other.y + z * other.z
     fun lenSq() = dot(this)

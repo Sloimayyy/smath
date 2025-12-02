@@ -1,7 +1,6 @@
 package com.sloimay.smath.geometry.boundary
 
 import com.sloimay.smath.vectors.IVec3
-import com.sloimay.smath.vectors.ivec3
 
 
 /**
@@ -34,7 +33,7 @@ class IntBoundary private constructor(
         }
 
 
-        private fun rangeIntersect(r1Start: Int, r1End: Int, r2Start: Int, r2End: Int): Boolean {
+        private fun rangeInter(r1Start: Int, r1End: Int, r2Start: Int, r2End: Int): Boolean {
             return r1Start < r2End && r1End > r2Start
         }
 
@@ -52,9 +51,9 @@ class IntBoundary private constructor(
     }
 
     fun intersects(other: IntBoundary): Boolean {
-        return (rangeIntersect(a.x, b.x, other.a.x, other.b.x)
-                && rangeIntersect(a.y, b.y, other.a.y, other.b.y)
-                && rangeIntersect(a.z, b.z, other.a.z, other.b.z))
+        return (rangeInter(a.x, b.x, other.a.x, other.b.x) &&
+                rangeInter(a.y, b.y, other.a.y, other.b.y) &&
+                rangeInter(a.z, b.z, other.a.z, other.b.z))
     }
 
     fun posOnBorder(pos: IVec3): Boolean {

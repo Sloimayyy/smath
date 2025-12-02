@@ -112,7 +112,9 @@ data class IVec4(val x: Int, val y: Int, val z: Int, val w: Int) {
     fun mod(value: Int) = IVec4(x.mod(value), y.mod(value), z.mod(value), w.mod(value))
     fun mod(other: IVec4) = IVec4(x.mod(other.x), y.mod(other.y), z.mod(other.z), w.mod(other.w))
     fun min(other: IVec4) = IVec4(min(x, other.x), min(y, other.y), min(z, other.z), min(w, other.w))
+    fun min(other: Int) = IVec4(min(x, other), min(y, other), min(z, other), min(w, other))
     fun max(other: IVec4) = IVec4(max(x, other.x), max(y, other.y), max(z, other.z), max(w, other.w))
+    fun max(other: Int) = IVec4(max(x, other), max(y, other), max(z, other), max(w, other))
     fun clamp(low: IVec4, high: IVec4) = IVec4(max(min(x, high.x), low.x), max(min(y, high.y), low.y), max(min(z, high.z), low.z), max(min(w, high.w), low.w))
     fun dot(other: IVec4) = x * other.x + y * other.y + z * other.z + w * other.w
     fun lenSq() = dot(this)

@@ -113,7 +113,9 @@ data class DVec3(val x: Double, val y: Double, val z: Double) {
     fun mod(value: Double) = DVec3(x.mod(value), y.mod(value), z.mod(value))
     fun mod(other: DVec3) = DVec3(x.mod(other.x), y.mod(other.y), z.mod(other.z))
     fun min(other: DVec3) = DVec3(min(x, other.x), min(y, other.y), min(z, other.z))
+    fun min(other: Double) = DVec3(min(x, other), min(y, other), min(z, other))
     fun max(other: DVec3) = DVec3(max(x, other.x), max(y, other.y), max(z, other.z))
+    fun max(other: Double) = DVec3(max(x, other), max(y, other), max(z, other))
     fun clamp(low: DVec3, high: DVec3) = DVec3(max(min(x, high.x), low.x), max(min(y, high.y), low.y), max(min(z, high.z), low.z))
     fun dot(other: DVec3) = x * other.x + y * other.y + z * other.z
     fun lenSq() = dot(this)
@@ -140,6 +142,13 @@ data class DVec3(val x: Double, val y: Double, val z: Double) {
     fun ceil() = DVec3(ceil(x), ceil(y), ceil(z))
     fun round() = DVec3(round(x), round(y), round(z))
     fun fract() = mod(1.0)
+    fun rot(axis: DVec3, angle: Double): DVec3 {
+        val c = cos(angle)
+        val term1 = this * c
+        val term2 = (axis.cross(this)) * sin(angle)
+        val term3 = axis * ((axis.dot(this)) * (0.0 - c))
+        return term1 + term2 + term3
+    }
     fun quatMul(q: Quat): DVec3 {
         val u = DVec3(q.x, q.y, q.z)
         val scalar = q.w.toDouble()

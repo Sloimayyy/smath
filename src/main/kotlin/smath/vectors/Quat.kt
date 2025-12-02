@@ -6,6 +6,8 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
+// quaternion cheat sheet:
+// https://danceswithcode.net/engineeringnotes/quaternions/quaternions.html#:~:text=For%20rotation%20quaternions%2C%20the%20inverse,opposite%20direction%20from%20the%20original.
 
 data class Quat(val x: Float, val y: Float, val z: Float, val w: Float) {
 
@@ -41,7 +43,7 @@ data class Quat(val x: Float, val y: Float, val z: Float, val w: Float) {
     operator fun get(idx: Long) = this[idx.toUByte()]
     operator fun get(idx: ULong) = this[idx.toUByte()]
 
-    fun equality(other: Quat) = this.x == other.x && this.y == other.y && this.z == other.z && this.w == other.w
+    fun eq(other: Quat) = this.x == other.x && this.y == other.y && this.z == other.z && this.w == other.w
     fun withX(v: Float) = new(v, this.y, this.z, this.w)
     fun withY(v: Float) = new(this.x, v, this.z, this.w)
     fun withZ(v: Float) = new(this.x, this.y, v, this.w)

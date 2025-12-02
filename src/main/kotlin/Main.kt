@@ -12,6 +12,12 @@ import kotlin.time.TimeSource
 @OptIn(ExperimentalTime::class)
 fun main() {
 
+    val bonjour = DVec3(1.0, 0.0, 1.0)
+
+    println(bonjour.rot((-DVec3.Y + DVec3.X).normalize(), PI/2.0/2.0))
+
+
+    return
 
 
     val startTime = TimeSource.Monotonic.markNow()

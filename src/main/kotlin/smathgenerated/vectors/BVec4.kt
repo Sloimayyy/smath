@@ -112,7 +112,9 @@ data class BVec4(val x: Byte, val y: Byte, val z: Byte, val w: Byte) {
     fun mod(value: Byte) = BVec4(x.mod(value), y.mod(value), z.mod(value), w.mod(value))
     fun mod(other: BVec4) = BVec4(x.mod(other.x), y.mod(other.y), z.mod(other.z), w.mod(other.w))
     fun min(other: BVec4) = BVec4(min(x.toInt(), other.x.toInt()).toByte(), min(y.toInt(), other.y.toInt()).toByte(), min(z.toInt(), other.z.toInt()).toByte(), min(w.toInt(), other.w.toInt()).toByte())
+    fun min(other: Byte) = BVec4(min(x.toInt(), other.toInt()).toByte(), min(y.toInt(), other.toInt()).toByte(), min(z.toInt(), other.toInt()).toByte(), min(w.toInt(), other.toInt()).toByte())
     fun max(other: BVec4) = BVec4(max(x.toInt(), other.x.toInt()).toByte(), max(y.toInt(), other.y.toInt()).toByte(), max(z.toInt(), other.z.toInt()).toByte(), max(w.toInt(), other.w.toInt()).toByte())
+    fun max(other: Byte) = BVec4(max(x.toInt(), other.toInt()).toByte(), max(y.toInt(), other.toInt()).toByte(), max(z.toInt(), other.toInt()).toByte(), max(w.toInt(), other.toInt()).toByte())
     fun clamp(low: BVec4, high: BVec4) = BVec4(max(min(x.toInt(), high.x.toInt()), low.x.toInt()).toByte(), max(min(y.toInt(), high.y.toInt()), low.y.toInt()).toByte(), max(min(z.toInt(), high.z.toInt()), low.z.toInt()).toByte(), max(min(w.toInt(), high.w.toInt()), low.w.toInt()).toByte())
     fun dot(other: BVec4) = x * other.x + y * other.y + z * other.z + w * other.w
     fun lenSq() = dot(this)

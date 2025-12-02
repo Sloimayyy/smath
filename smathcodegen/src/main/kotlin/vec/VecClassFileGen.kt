@@ -14,6 +14,12 @@ private val LOCALE = Locale.UK
  * TODO:
  *  - Be more consistent whether I let the vector constructors cast the data back to
  *      its component types or if I do it explicitly in the function
+ *  - Instead of making a table of conversion rules when it comes to operators and
+ *    functions, use reflection at runtime to poll those conversions
+ *  - Add Vec2.atan2()
+ *
+ * Main rule I'd wanna follow: implicit casts of types are fine only for methods that are
+ * constructor-like; once it does some computation you'd rather be more strict
  */
 
 
@@ -125,7 +131,7 @@ private fun VecClassFileGen.piecewiseUnaryOps() {
 
 private fun VecClassFileGen.getOperator() {
 
-    for (t in JAVA_NUM_TYPES.filter { !it.isFloatNum() }) {
+    for (t in JAVA_NUM_TYPES.filter { !it.isFloat() }) {
         val convStr = getNumConvData(t.name, "Int").convStr
         vecClassRepr.addElem(
             MethodRepr(
@@ -286,7 +292,7 @@ private fun VecClassFileGen.constants() {
     )
 
     // Positive infinity and Negative infinity
-    if (typeData.isFloatNum()) {
+    if (typeData.isFloat()) {
         for ((polarity, varName) in listOf(Pair("positive", "INF"), Pair("negative", "NEG_INF"))) {
             constant(
                 varName,
@@ -534,6 +540,23 @@ private fun VecClassFileGen.specialFuncs() {
                 }})")
             }
         )
+
+        vecClassRepr.addElem(
+            MethodRepr(
+                listOf(),
+                funcName,
+                listOf(FunParam("other", compType)),
+                true,
+            ).also {
+                it.writeStr("$className(${compNames.joinToString(", ") {
+                    maybeApplyMemberFunc("$funcName(${
+                        maybeApplyMemberFunc(it, convStr, false, applyConvs)
+                    }, ${
+                        maybeApplyMemberFunc("other", convStr, false, applyConvs)
+                    })", invConvStr, false, applyConvs)
+                }})")
+            }
+        )
     }
 
     // Clamp
@@ -589,7 +612,7 @@ private fun VecClassFileGen.specialFuncs() {
     // Len
     for (alias in listOf("len", )) {
         // TODO: Prone to overflows, figure out the better way
-        val convertStr = if (typeData.isFloatNum()) ""
+        val convertStr = if (typeData.isFloat()) ""
         else if (typeData.bits < 32) "toFloat()"
         else "toDouble()"
 
@@ -610,7 +633,7 @@ private fun VecClassFileGen.specialFuncs() {
     for ((mainFuncName, lenFuncName) in listOf(Pair("dist", "len"), Pair("distSq", "lenSq"))) {
         // Here we convert the vectors instead of converting the result of the subtraction to keep the
         // risk of overflowing at a minimum
-        val convertStr = if (typeData.isFloatNum()) ""
+        val convertStr = if (typeData.isFloat()) ""
         else if (typeData.bits < 32) ".toVec$dims()"
         else ".toDVec$dims()"
 
@@ -628,7 +651,7 @@ private fun VecClassFileGen.specialFuncs() {
 
     // Normalize
     run {
-        val convertStr = if (typeData.isFloatNum()) ""
+        val convertStr = if (typeData.isFloat()) ""
         else if (typeData.bits < 32) ".toVec$dims()"
         else ".toDVec$dims()"
 
@@ -800,8 +823,8 @@ private fun VecClassFileGen.specialFuncs() {
 
     // Lerp
     run {
-        if (!typeData.isFloatNum()) {
-            val convertStr = if (typeData.isFloatNum()) ""
+        if (!typeData.isFloat()) {
+            val convertStr = if (typeData.isFloat()) ""
             else if (typeData.bits < 32) ".toVec$dims()"
             else ".toDVec$dims()"
 
@@ -841,11 +864,11 @@ private fun VecClassFileGen.specialFuncs() {
 
 
 
-    if (!typeData.isFloatNum()) {
+    if (!typeData.isFloat()) {
         specialIntegerFuncs()
     }
 
-    if (typeData.isFloatNum()) {
+    if (typeData.isFloat()) {
         specialFloatFuncs()
     }
     vecClassRepr.writeStr("\n")
@@ -1068,6 +1091,31 @@ private fun VecClassFileGen.specialFloatFuncs() {
         it.writeStr("mod(${numStrToTyped("1", compType)})")
     })
 
+    // Rot(angle)
+    if (dims == 2) {
+        vecClassRepr.addElem(MethodRepr(
+            listOf(), "rot", listOf(FunParam("angle", compType)), false, className
+        ).also {
+            it.writeContextAwareStr("""
+                val c = cos(angle)
+                val s = sin(angle)
+                return ${className}(x*c - y*s, x*s + y*c)
+            """.trimIndent())
+        })
+    } else if (dims == 3) {
+        vecClassRepr.addElem(MethodRepr(
+            listOf(), "rot", listOf(FunParam("axis", className), FunParam("angle", compType)), false, className
+        ).also {
+            it.writeContextAwareStr("""
+                val c = cos(angle)
+                val term1 = this * c
+                val term2 = (axis.cross(this)) * sin(angle)
+                val term3 = axis * ((axis.dot(this)) * (${numStrToTyped("0", compType)} - c))
+                return term1 + term2 + term3
+            """.trimIndent())
+        })
+    }
+
     // QuatMul (DQuat coming later?)
     if (dims == 3) {
         vecClassRepr.addElem(MethodRepr(
@@ -1096,7 +1144,7 @@ private fun VecClassFileGen.toStringFunc() {
             var s = "return (\"$className(\" + \n"
             compNames.withIndex().forEach { (compIdx, compName) ->
                 s += "        "
-                if (typeData.isFloatNum()) {
+                if (typeData.isFloat()) {
                     s += "\"$compName=\${\"%.5f\".format(Locale.ENGLISH, $compName)}"
                 } else {
                     s += "\"$compName=\$$compName"

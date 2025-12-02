@@ -110,7 +110,9 @@ data class LVec2(val x: Long, val y: Long) {
     fun mod(value: Long) = LVec2(x.mod(value), y.mod(value))
     fun mod(other: LVec2) = LVec2(x.mod(other.x), y.mod(other.y))
     fun min(other: LVec2) = LVec2(min(x, other.x), min(y, other.y))
+    fun min(other: Long) = LVec2(min(x, other), min(y, other))
     fun max(other: LVec2) = LVec2(max(x, other.x), max(y, other.y))
+    fun max(other: Long) = LVec2(max(x, other), max(y, other))
     fun clamp(low: LVec2, high: LVec2) = LVec2(max(min(x, high.x), low.x), max(min(y, high.y), low.y))
     fun dot(other: LVec2) = x * other.x + y * other.y
     fun lenSq() = dot(this)

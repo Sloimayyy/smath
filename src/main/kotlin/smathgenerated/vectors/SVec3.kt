@@ -111,7 +111,9 @@ data class SVec3(val x: Short, val y: Short, val z: Short) {
     fun mod(value: Short) = SVec3(x.mod(value), y.mod(value), z.mod(value))
     fun mod(other: SVec3) = SVec3(x.mod(other.x), y.mod(other.y), z.mod(other.z))
     fun min(other: SVec3) = SVec3(min(x.toInt(), other.x.toInt()).toShort(), min(y.toInt(), other.y.toInt()).toShort(), min(z.toInt(), other.z.toInt()).toShort())
+    fun min(other: Short) = SVec3(min(x.toInt(), other.toInt()).toShort(), min(y.toInt(), other.toInt()).toShort(), min(z.toInt(), other.toInt()).toShort())
     fun max(other: SVec3) = SVec3(max(x.toInt(), other.x.toInt()).toShort(), max(y.toInt(), other.y.toInt()).toShort(), max(z.toInt(), other.z.toInt()).toShort())
+    fun max(other: Short) = SVec3(max(x.toInt(), other.toInt()).toShort(), max(y.toInt(), other.toInt()).toShort(), max(z.toInt(), other.toInt()).toShort())
     fun clamp(low: SVec3, high: SVec3) = SVec3(max(min(x.toInt(), high.x.toInt()), low.x.toInt()).toShort(), max(min(y.toInt(), high.y.toInt()), low.y.toInt()).toShort(), max(min(z.toInt(), high.z.toInt()), low.z.toInt()).toShort())
     fun dot(other: SVec3) = x * other.x + y * other.y + z * other.z
     fun lenSq() = dot(this)

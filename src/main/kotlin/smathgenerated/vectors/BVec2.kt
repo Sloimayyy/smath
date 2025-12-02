@@ -110,7 +110,9 @@ data class BVec2(val x: Byte, val y: Byte) {
     fun mod(value: Byte) = BVec2(x.mod(value), y.mod(value))
     fun mod(other: BVec2) = BVec2(x.mod(other.x), y.mod(other.y))
     fun min(other: BVec2) = BVec2(min(x.toInt(), other.x.toInt()).toByte(), min(y.toInt(), other.y.toInt()).toByte())
+    fun min(other: Byte) = BVec2(min(x.toInt(), other.toInt()).toByte(), min(y.toInt(), other.toInt()).toByte())
     fun max(other: BVec2) = BVec2(max(x.toInt(), other.x.toInt()).toByte(), max(y.toInt(), other.y.toInt()).toByte())
+    fun max(other: Byte) = BVec2(max(x.toInt(), other.toInt()).toByte(), max(y.toInt(), other.toInt()).toByte())
     fun clamp(low: BVec2, high: BVec2) = BVec2(max(min(x.toInt(), high.x.toInt()), low.x.toInt()).toByte(), max(min(y.toInt(), high.y.toInt()), low.y.toInt()).toByte())
     fun dot(other: BVec2) = x * other.x + y * other.y
     fun lenSq() = dot(this)

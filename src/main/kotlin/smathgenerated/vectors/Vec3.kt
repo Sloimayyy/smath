@@ -113,7 +113,9 @@ data class Vec3(val x: Float, val y: Float, val z: Float) {
     fun mod(value: Float) = Vec3(x.mod(value), y.mod(value), z.mod(value))
     fun mod(other: Vec3) = Vec3(x.mod(other.x), y.mod(other.y), z.mod(other.z))
     fun min(other: Vec3) = Vec3(min(x, other.x), min(y, other.y), min(z, other.z))
+    fun min(other: Float) = Vec3(min(x, other), min(y, other), min(z, other))
     fun max(other: Vec3) = Vec3(max(x, other.x), max(y, other.y), max(z, other.z))
+    fun max(other: Float) = Vec3(max(x, other), max(y, other), max(z, other))
     fun clamp(low: Vec3, high: Vec3) = Vec3(max(min(x, high.x), low.x), max(min(y, high.y), low.y), max(min(z, high.z), low.z))
     fun dot(other: Vec3) = x * other.x + y * other.y + z * other.z
     fun lenSq() = dot(this)
@@ -140,6 +142,13 @@ data class Vec3(val x: Float, val y: Float, val z: Float) {
     fun ceil() = Vec3(ceil(x), ceil(y), ceil(z))
     fun round() = Vec3(round(x), round(y), round(z))
     fun fract() = mod(1.0f)
+    fun rot(axis: Vec3, angle: Float): Vec3 {
+        val c = cos(angle)
+        val term1 = this * c
+        val term2 = (axis.cross(this)) * sin(angle)
+        val term3 = axis * ((axis.dot(this)) * (0.0f - c))
+        return term1 + term2 + term3
+    }
     fun quatMul(q: Quat): Vec3 {
         val u = Vec3(q.x, q.y, q.z)
         val scalar = q.w

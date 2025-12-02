@@ -112,7 +112,9 @@ data class DVec2(val x: Double, val y: Double) {
     fun mod(value: Double) = DVec2(x.mod(value), y.mod(value))
     fun mod(other: DVec2) = DVec2(x.mod(other.x), y.mod(other.y))
     fun min(other: DVec2) = DVec2(min(x, other.x), min(y, other.y))
+    fun min(other: Double) = DVec2(min(x, other), min(y, other))
     fun max(other: DVec2) = DVec2(max(x, other.x), max(y, other.y))
+    fun max(other: Double) = DVec2(max(x, other), max(y, other))
     fun clamp(low: DVec2, high: DVec2) = DVec2(max(min(x, high.x), low.x), max(min(y, high.y), low.y))
     fun dot(other: DVec2) = x * other.x + y * other.y
     fun lenSq() = dot(this)
@@ -139,6 +141,11 @@ data class DVec2(val x: Double, val y: Double) {
     fun ceil() = DVec2(ceil(x), ceil(y))
     fun round() = DVec2(round(x), round(y))
     fun fract() = mod(1.0)
+    fun rot(angle: Double): DVec2 {
+        val c = cos(angle)
+        val s = sin(angle)
+        return DVec2(x*c - y*s, x*s + y*c)
+    }
 
     fun extend(z: Byte) = DVec3(x, y, z.toDouble())
     fun extend(z: Short) = DVec3(x, y, z.toDouble())

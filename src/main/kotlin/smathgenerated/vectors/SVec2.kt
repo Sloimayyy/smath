@@ -110,7 +110,9 @@ data class SVec2(val x: Short, val y: Short) {
     fun mod(value: Short) = SVec2(x.mod(value), y.mod(value))
     fun mod(other: SVec2) = SVec2(x.mod(other.x), y.mod(other.y))
     fun min(other: SVec2) = SVec2(min(x.toInt(), other.x.toInt()).toShort(), min(y.toInt(), other.y.toInt()).toShort())
+    fun min(other: Short) = SVec2(min(x.toInt(), other.toInt()).toShort(), min(y.toInt(), other.toInt()).toShort())
     fun max(other: SVec2) = SVec2(max(x.toInt(), other.x.toInt()).toShort(), max(y.toInt(), other.y.toInt()).toShort())
+    fun max(other: Short) = SVec2(max(x.toInt(), other.toInt()).toShort(), max(y.toInt(), other.toInt()).toShort())
     fun clamp(low: SVec2, high: SVec2) = SVec2(max(min(x.toInt(), high.x.toInt()), low.x.toInt()).toShort(), max(min(y.toInt(), high.y.toInt()), low.y.toInt()).toShort())
     fun dot(other: SVec2) = x * other.x + y * other.y
     fun lenSq() = dot(this)

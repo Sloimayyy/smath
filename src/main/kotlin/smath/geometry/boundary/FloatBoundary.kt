@@ -34,9 +34,9 @@ class FloatBoundary private constructor(
     }
 
     fun intersects(other: FloatBoundary): Boolean {
-        return (rangeIntersect(mCorner.x, pCorner.x, other.mCorner.x, other.pCorner.x) &&
-                rangeIntersect(mCorner.y, pCorner.y, other.mCorner.y, other.pCorner.y) &&
-                rangeIntersect(mCorner.z, pCorner.z, other.mCorner.z, other.pCorner.z))
+        return (rangeInter(mCorner.x, pCorner.x, other.mCorner.x, other.pCorner.x) &&
+                rangeInter(mCorner.y, pCorner.y, other.mCorner.y, other.pCorner.y) &&
+                rangeInter(mCorner.z, pCorner.z, other.mCorner.z, other.pCorner.z))
     }
 
     fun distSqrdFrom(p: Vec3): Float {
@@ -55,7 +55,7 @@ class FloatBoundary private constructor(
 
 
 
-private fun rangeIntersect(r1Start: Float, r1End: Float, r2Start: Float, r2End: Float): Boolean {
+private fun rangeInter(r1Start: Float, r1End: Float, r2Start: Float, r2End: Float): Boolean {
     return r1Start < r2End && r1End > r2Start
 }
 

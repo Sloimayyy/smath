@@ -114,7 +114,9 @@ data class DVec4(val x: Double, val y: Double, val z: Double, val w: Double) {
     fun mod(value: Double) = DVec4(x.mod(value), y.mod(value), z.mod(value), w.mod(value))
     fun mod(other: DVec4) = DVec4(x.mod(other.x), y.mod(other.y), z.mod(other.z), w.mod(other.w))
     fun min(other: DVec4) = DVec4(min(x, other.x), min(y, other.y), min(z, other.z), min(w, other.w))
+    fun min(other: Double) = DVec4(min(x, other), min(y, other), min(z, other), min(w, other))
     fun max(other: DVec4) = DVec4(max(x, other.x), max(y, other.y), max(z, other.z), max(w, other.w))
+    fun max(other: Double) = DVec4(max(x, other), max(y, other), max(z, other), max(w, other))
     fun clamp(low: DVec4, high: DVec4) = DVec4(max(min(x, high.x), low.x), max(min(y, high.y), low.y), max(min(z, high.z), low.z), max(min(w, high.w), low.w))
     fun dot(other: DVec4) = x * other.x + y * other.y + z * other.z + w * other.w
     fun lenSq() = dot(this)

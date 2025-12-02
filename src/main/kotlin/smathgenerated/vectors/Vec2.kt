@@ -112,7 +112,9 @@ data class Vec2(val x: Float, val y: Float) {
     fun mod(value: Float) = Vec2(x.mod(value), y.mod(value))
     fun mod(other: Vec2) = Vec2(x.mod(other.x), y.mod(other.y))
     fun min(other: Vec2) = Vec2(min(x, other.x), min(y, other.y))
+    fun min(other: Float) = Vec2(min(x, other), min(y, other))
     fun max(other: Vec2) = Vec2(max(x, other.x), max(y, other.y))
+    fun max(other: Float) = Vec2(max(x, other), max(y, other))
     fun clamp(low: Vec2, high: Vec2) = Vec2(max(min(x, high.x), low.x), max(min(y, high.y), low.y))
     fun dot(other: Vec2) = x * other.x + y * other.y
     fun lenSq() = dot(this)
@@ -139,6 +141,11 @@ data class Vec2(val x: Float, val y: Float) {
     fun ceil() = Vec2(ceil(x), ceil(y))
     fun round() = Vec2(round(x), round(y))
     fun fract() = mod(1.0f)
+    fun rot(angle: Float): Vec2 {
+        val c = cos(angle)
+        val s = sin(angle)
+        return Vec2(x*c - y*s, x*s + y*c)
+    }
 
     fun extend(z: Byte) = Vec3(x, y, z.toFloat())
     fun extend(z: Short) = Vec3(x, y, z.toFloat())

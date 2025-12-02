@@ -19,6 +19,7 @@ val VECS_TO_GEN = (cartesianProd(listOf(
         Pair("LVec", "Long"),
         Pair("Vec", "Float"),
         Pair("DVec", "Double"),
+        //Pair("UVec", "UInt"),
     ).map { it },
     (2..4).map { it },
 ))
@@ -226,7 +227,7 @@ class NumTypeData(
     val clazz: Class<*>,
     val bits: Int,
 ) {
-    fun isFloatNum(): Boolean = name == "Float" || name == "Double"
+    fun isFloat(): Boolean = name == "Float" || name == "Double"
     fun isUnsigned(): Boolean = name in listOf("UByte", "UShort", "UInt", "ULong")
     fun needToBumpToInt(): Boolean = name in listOf("Byte", "UByte", "Short", "UShort")
 }

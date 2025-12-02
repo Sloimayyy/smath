@@ -101,7 +101,7 @@ class Mat4(values: FloatArray) {
 
 
     fun timesVec4(vec4: Vec4): Vec4 {
-        return Vec4 { it ->
+        return Vec4 {
             return@Vec4 (
                 this[0, it] * vec4.x +
                 this[1, it] * vec4.y +
